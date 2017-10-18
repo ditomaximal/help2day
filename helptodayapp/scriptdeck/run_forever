@@ -1,0 +1,2 @@
+/usr/bin/forever start --sourceDir=/var/helptodayapp -a -l /var/log/nodejs/app.log server.js
+
