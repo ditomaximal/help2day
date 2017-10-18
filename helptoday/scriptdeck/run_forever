@@ -1,0 +1,1 @@
+/usr/bin/forever start --sourceDir=/var/helptoday -a -l /var/log/nodejs/crm.log server.js
