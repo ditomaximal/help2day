@@ -1,0 +1,486 @@
+
+{{> header_crm}}
+
+
+<script type="text/javascript">
+
+$(document).ready(function() 
+{
+    $('#pr_gift_image_button').click(function(){
+        $('#pr_gift_image').modal('show');
+    });
+    
+    $('#pr_impact_image_ref_button').click(function()
+    {
+        $('#pr_impact_image_ref').modal('show');
+    });
+    
+    $('.ui.dropdown').dropdown();
+    $('.ui.dropdown').dropdown('set selected', [ {{#each promotion.pr_profile_id_list}}'{{this}}', {{/each}} ] );
+    
+    $('#datetimepicker').datetimepicker({lang:'de',format:'Y-m-d H:i'});
+    
+    $('.ui.checkbox').checkbox();
+
+    
+    {{#if promotion.pr_allow_upcount}}
+        $('#pr_allow_upcount').checkbox('set checked');
+    {{else}}
+        $('#pr_allow_upcount').checkbox('set unchecked');
+    {{/if}}
+    
+    
+    
+    $('#mainform').form({
+          fields: {
+            name: { identifier: 'pr_profile_id_list', rules: [{ type   : 'minCount[1]', prompt : 'Bitte lege das Profil der Anfrage fest.' } ] },
+            skills: { identifier: 'pr_hint', rules: [ { type   : 'empty', prompt : 'Bitte gebe den Hinweis für Helfer an, wo und wie die Hilfe geleistet werden kann.' } ] },
+            enddate: { identifier: 'pr_end_time_string', rules: [ { type   : 'empty', prompt : 'Bitte gebe das Ende der Laufzeit der Hilfsanfrage an.' } ] },
+          }
+    });    
+    
+    
+    
+    
+    
+    
+});
+</script>
+
+
+<div class="ui modal" id="pr_gift_image">
+  <i class="close icon"></i>
+  
+  <div class="header">
+    Bild für Hilfsanfrage
+  </div>
+
+  <div class="content">
+
+      <div class="ui basic segment">
+      
+         <h3 class="header">
+            Standardbilder zum Auswählen
+        </h3>
+      
+        <div class="ui small images">
+            {{#each images}}
+                <a class="ui image" href="/set/promotionimage?pr_id={{../promotion.pr_id}}&imc_id={{this.imc_id}}"> 
+                    <img src="{{image_url}}/{{this.imc_image_reference}}_200">
+                </a>
+            {{/each}}
+        </div>
+      </div>
+
+      <div class="ui basic segment">
+         <h3 class="header">
+            Bilddatei hochladen
+        </h3>
+
+          <form class="ui form" method="POST" id="theform" action="/upload/promotionimage?pr_id={{promotion.pr_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+     
+            <div class="two fields">
+            
+                <div class="field">
+                    <label>Bilddatei</label> <input type="file" accept="image/*" maxlength="2000000" name="pr_gift_image_reference" hint="Datei auswählen">
+                </div>
+            </div>
+          </form>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui grey deny button">Zurück</div>
+    <input type="submit" value="Laden" form="theform" class="ui positive button">
+  </div>
+</div>
+
+
+
+
+<div class="ui modal" id="pr_impact_image_ref">
+  <i class="close icon"></i>
+  
+  <div class="header">
+    Bild für Impact der Hilfsanfrage
+  </div>
+
+  <div class="content">
+
+      <div class="ui basic segment">
+      
+         <h3 class="header">
+            Standardbilder zum Auswählen
+        </h3>
+      
+        <div class="ui small images">
+            {{#each images}}
+                <a class="ui image" href="/set/promotionimpactimage?pr_id={{../promotion.pr_id}}&imc_id={{this.imc_id}}"> 
+                    <img src="{{image_url}}/{{this.imc_image_reference}}_200">
+                </a>
+            {{/each}}
+        </div>
+      </div>
+
+      <div class="ui basic segment">
+         <h3 class="header">
+            Bilddatei hochladen
+        </h3>
+
+          <form class="ui form" method="POST" id="theimpactform" action="/upload/promotionimpactimage?pr_id={{promotion.pr_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+     
+            <div class="two fields">
+            
+                <div class="field">
+                    <label>Bilddatei</label> <input type="file" accept="image/*" maxlength="2000000" name="pr_impact_image_ref" hint="Datei auswählen">
+                </div>
+            </div>
+          </form>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui grey deny button">Zurück</div>
+    <input type="submit" value="Laden" form="theimpactform" class="ui positive button">
+  </div>
+</div>
+
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="ui twelfe wide centered column">
+                <h1 class="ui centered header">Hilfsanfrage</h1>
+        </div>
+        
+        <div class="ui eight wide column">
+            <div class="ui centered card">        
+                <div class="image">
+                
+                    {{#if promotion.pr_instance_id}}
+                        <a class="ui teal ribbon label">Aktiv</a>
+                    {{else}}
+                        <a class="ui red ribbon label">Inaktiv</a>
+                    {{/if}}
+                  
+                  <img id="pr_gift_image_button" src="{{image_url}}/{{promotion.pr_gift_image_reference}}_500">
+                </div>
+                <div class="content">
+                  <div class="description">
+                    
+                    <p>
+                        <i class="ui announcement icon"></i>{{promotion.pr_gift_comment_string}}
+                    </p>
+                    
+                    <p>
+                        <i class="ui heart icon"></i>{{promotion.pr_user_comment_string}}
+                    </p>
+                    
+                  </div>
+                </div>
+
+
+                <div class="extra content">
+                    <p>
+                        <i class="ui info icon"></i> {{promotion.pr_hint}}
+                    </p>
+                </div>
+                
+                <div class="extra content">
+                
+                    <div class="left floated author">
+                       <a href="/hotspot?li_id={{promotion.li_id}}" class="ui avatar image">
+                          <img class="ui avatar image" src="/image/{{promotion.li_marker_reference}}"> 
+                       </a>
+                      {{promotion.li_comment}}
+                    </div>
+                </div>
+                
+                <div class="extra content">
+                    <p>
+                        <i class="ui share icon"></i>
+                        
+                        {{#if promotion.pr_instance_id}}
+                            <a href="{{deeplink_url}}/{{promotion.pr_instance_id}}">{{deeplink_url}}/{{promotion.pr_instance_id}}</a>
+                        {{else}}
+                            Aktiviere die Anfrage um den Share Link hier zu sehen.
+                        {{/if}} 
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui eight wide column">
+
+            <form id="mainform" class="ui form basic fluid segment" method="POST" action="/promotion?pr_id={{promotion.pr_id}}">
+
+                
+                <h3 class="ui header">Beschreibung der Hilfsanfrage</h3>
+                
+                <div class="required field">
+                    <label>Profil der Hilfeleistung</label> 
+                    
+                    <select name="pr_profile_id_list" multiple="" class="ui fluid dropdown" value="{{promotion.pr_profile_id_list}}">
+                        <option value="1">Sachspende</option>
+                        <option value="2">Zeitspende</option>
+                        <option value="3">Zeitspende für registrierte Helfer</option>
+                        <option value="4">Obdachlose</option>
+                        <option value="5">Kinder</option>
+                        <option value="6">Familien</option>
+                        <option value="7">Flüchtlinge</option>
+                        <option value="8">Pflegebedürftige</option>
+                        <option value="9">Alte Menschen</option>
+                        <option value="10">Erledigen</option>
+                        <option value="11">Begleiten</option>
+                        <option value="12">Versorgen</option>
+                        <option value="13">Tiere versorgen</option>
+                        <option value="14">Dolmetschen</option>
+                        <option value="15">Lernhilfe</option>
+                        <option value="16">Kleidung</option>
+                        <option value="17">Spielsachen</option>
+                        <option value="18">Haushaltsausstattung</option>
+                        <option value="19">Freizeit/Sportgeräte</option>
+                        <option value="20">Lebensmittel</option>
+                        <option value="21">Technische Geräte</option>
+                        <option value="22">Tiernahrung</option>
+                    </select>
+                    
+                </div>
+                
+                
+                
+                
+                
+                
+            
+                <div class="required field">
+                    <label>Anfrage (was wird gebraucht?)</label> 
+<!--                     <input type="text" maxlength="160" name="pr_gift_comment" value="{{promotion.pr_gift_comment}}"> -->
+                    <textarea name="pr_gift_comment" rows="3" maxlength="160">{{promotion.pr_gift_comment}}</textarea>
+                    
+                    <div class="ui pointing label">Verwende die Zeichenkette EINHEITEN um die aktuelle Anzahl offener Tickets im Text einzubauen. Die echte Anzahl wird weiter unten eingestellt. 160 Zeichen.</div>
+                </div>
+                
+                <div class="field">
+                    <label>Helferversprechen (was soll der Helfer machen?)</label> 
+<!--                     <input type="text" maxlength="160" name="pr_user_comment" value="{{promotion.pr_user_comment}}"> -->
+                    <textarea name="pr_user_comment" rows="3" maxlength="160">{{promotion.pr_user_comment}}</textarea>
+                    <div class="ui pointing label">Verwende die Zeichenkette STÜCK um die Anzahl pro Einheit im Text einzubauen. 160 Zeichen.</div>
+                </div>
+                
+
+                <div class="three fields">
+                    <div class="required field">
+                        <label>Anzahl der EINHEITEN</label> <input type="text" name="pr_gift_count" value="{{promotion.pr_gift_count}}">
+                    </div>
+                    <div class="field">
+                        <label>EINHEITEN pro Ticket</label> <input type="text" hint="1" name="pr_gift_units_per_count" value="{{promotion.pr_gift_units_per_count}}">
+                    </div>
+                    <div class="field">
+                        <label>Änderung der Anzahl</label> 
+                        <div class="ui checkbox" id="pr_allow_upcount">
+                            <input type="checkbox" tabindex="0" class="hidden" name="pr_allow_upcount">
+                            <label for="pr_allow_upcount">Helfer darf Einheiten erhöhen</label>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                <h3 class="ui header">Positive Auswirkung der Hilfeleistung</h3>
+
+
+                <div class="field">
+                    <label>Was wird durch die Spende erreicht?</label> 
+                    <textarea name="pr_impact_long" rows="2" maxlength="160">{{promotion.pr_impact_long}}</textarea>
+                    <div class="ui pointing label">Als Motivation für Helfer. 160 Zeichen.</div>
+                </div>
+
+                <div class="two fields">
+                    <div class="field">
+                        <label>Durch die Hilfeleistung kann die Hilfsorganisation...</label> 
+                        <input type="text" name="pr_impact" maxlength="64" value="{{promotion.pr_impact}}"></input>
+                     <div class="ui pointing label">Ergänze den obigen Satz. Als Motivation für Helfer. Maximal 64 Zeichen.</div> 
+
+                    </div>
+                    <div class="field">
+                    
+                        <label>Bild für Dankesseite</label> 
+                        <img class="ui small bordered image" id="pr_impact_image_ref_button" src="{{image_url}}/{{promotion.pr_impact_image_ref}}"> 
+                        <div class="ui pointing label">Quadratisch mindestens 200x200.</div>
+                    </div>
+                </div>
+
+
+
+                <h3 class="ui header">Laufzeit</h3>
+
+
+                <div class="two fields">
+                    <div class="required disabled field">
+                        <label>Startzeit</label> <input id="start_date" type="text" name="pr_start_time_string" value="Bei Aktivierung">
+                    </div>
+                    <div class="required field">
+                        <label>Ende</label> 
+                        
+                        <div class="ui right icon input">
+                            <input id="datetimepicker" type="text" name="pr_end_time_string" value="{{promotion.pr_end_time_string}}">
+                            <i class="calendar icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="ui header">Wann kann die Hilfe erbracht werden</h3>
+
+
+                <div class="field">
+                    <label>Zeiten</label> 
+                    <select name="pr_profile_id_list_time" multiple="" class="ui fluid dropdown">
+                        <option value="23">Morgens</option>
+                        <option value="24">Mittags</option>
+                        <option value="25">Nachmittags</option>
+                        <option value="26">Abends</option>
+                        <option value="27">Nachts</option>
+                        <option value="30">Werktags</option>
+                        <option value="28">Samstag/Sonntag</option>
+                        <option value="29">Feiertags</option>
+                    </select>
+                </div>
+
+                <h3 class="ui header">Hinweise und Benachrichtigungen</h3>
+
+
+                <div class="required field">
+                    <label>Hinweis für Helfer</label> 
+                    <textarea name="pr_hint" rows="4" maxlength="160">{{promotion.pr_hint}}</textarea>
+                    <div class="ui pointing label">Gib hier Detailinformation für den Helfer an (wo genau, bei wem, bis wann, Telephonnummer). Max. 160 Zeichen.</div>
+                </div>
+                <div class="field">
+                    <label>Mobilnummer für SMS bei Start und Stopp</label> <input type="text" name="pr_notification_phone" value="{{promotion.pr_notification_phone}}">
+                    <div class="ui pointing label">Gib hier eine oder mehrere Mobiltelefonnummern für SMS ein (z.B. +43676858, +436507866). Optional.</div>
+                </div>
+                <div class="field">
+                    <label>Mobilnummer für SMS bei Annahme einer Hilfsanfrage</label> <input type="text" name="pr_gift_phone" value="{{promotion.pr_gift_phone}}">
+                    <div class="ui pointing label">Gib hier eine Mobiltelefonnummern für SMS ein. Eine SMS wird für jede Bestätigung der Anfrage geschickt. Optional.</div>
+                </div>
+
+                
+                <div class="ui hidden divider"></div>
+                
+                <div class="ui hidden divider"></div>
+
+                <a class="ui grey button" href="/promotions/#{{promotion.pr_id}}">Zurück</a>
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui orange button" href="/promotion/create?pr_copy_id={{promotion.pr_id}}&li_id={{promotion.pr_like_id}}">Duplizieren</a> 
+                
+                <div class="ui error message"></div>
+                
+                
+                <div class="ui hidden divider"></div>
+                
+                {{#if promotion.pr_instance_id}}
+                    <a class="ui disabled grey button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=start">Aktivieren</a>
+                {{else}}
+                    <a class="ui teal button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=start">Aktivieren</a>
+                {{/if}}  
+                  
+                {{#if promotion.pr_instance_id}}
+                    <a class="ui red button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=stop">Stoppen</a>
+                {{else}}
+                    <a class="ui disabled grey button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=stop">Stoppen</a>
+                {{/if}}  
+                
+                <div class="ui hidden divider"></div>
+                
+                {{#if promotion.pr_instance_id}}
+                    <a class="ui violet button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=push"><i class="ui mail icon"></i>An Empfängerliste schicken</a>
+                {{else}}
+                    <a class="ui disabled grey button" href="/promotion/action?pr_id={{promotion.pr_id}}&action=push"><i class="ui mail icon"></i>An Empfängerliste schicken</a>
+                {{/if}} 
+                
+                {{#if promotion.pr_instance_id}}
+                    <a class="ui facebook button" href="{{{facebook_share_url promotion}}}"><i class="facebook icon"></i>Über Facebook teilen</a>
+                {{else}}
+                    <a class="ui disabled facebook button" href="{{{facebook_share_url promotion}}}"><i class="facebook icon"></i>Über Facebook teilen</a>
+                {{/if}} 
+                
+            </form>
+            
+            
+            
+            
+        </div>
+    </div>
+    
+    <div class="ui basic segment"></div>
+    <div class="ui divider"></div>
+    
+    <div class="ui one column centered stackable grid container">
+        <div class="ui twelfe wide centered column">
+                <h1 class="ui centered header">Starts und Stops dieser Vorlage</h1>
+        </div>
+    
+        <div class="ui twelve wide column">
+    
+            <table class="ui very basic table">        
+                <tbody>
+                
+                    {{#each promotion_instance}}
+                    
+                            <tr>
+                                <td>
+                                    <a class="ui left floated tiny ui image" href="/promotion_instance?pi_id={{this.pi_id}}">
+                                        <img style="width:100%;" src="{{image_url}}/{{this.pi_gift_image_reference}}_100">
+                                    </a>
+                                    
+                                </td>
+                                
+                                <td>
+                                    <p>
+                                        {{this.pi_gift_comment}}
+                                    </p>
+                                </td>
+                                
+                                <td>
+                                        <div class="ui label">
+                                           {{this.pi_gift_count}} 
+                                        </div>
+                                </td>
+                                
+                                <td>
+                                    <p>
+                                        {{this.pi_start_time_string}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        {{this.pi_end_time_string}}
+                                    </p>
+                                </td>
+                            </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+    
+        </div>
+    
+    </div>
+    
+    <div class="ui basic segment"></div>
+    
+    
+    
+</div>
+
+
+<div class="ui basic vertical segment">
+</div>
+
+<div class="ui basic vertical segment">
+</div>
+
+
+      
+{{> footer}}
+      
+      

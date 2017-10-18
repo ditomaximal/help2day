@@ -1,0 +1,352 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places"></script>
+<script src="/js/sigstyleoptions.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script type="text/javascript">
+
+var longitude='16.37';
+var latitude='48.209';
+var zoom= 11;
+var map= null;
+var session_key='none';
+{{#if session}}
+session_key='{{session.ks_key}}';
+longitude={{session.ks_longitude}};
+latitude={{session.ks_latitude}};
+{{/if}}
+
+var player;
+var play_video = false;
+var player_error = false;
+var player_ready = false;
+
+function getDistanceFromLatLonInKm (lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+};
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+};
+
+
+function updateSideline(){
+
+    $.getJSON( "/sig/events/data", { ks_key : session_key, limit: 4 }, function( data ) {
+        
+        var items = [];
+        
+        $.each( data.events, function( key, val ) {
+            
+            //console.log ("found ", key, val );
+            
+            itemHtml= '<div class="event"><div class="label"><img class="" src="{{image_url}}/'+ val.se_marker +'"></div><div class="content"><div class="summary">' + val.se_title + 
+            '<div class="date">'+ val.se_age +'</div></div><div class="extra text">' + val.se_message +
+            '</div><div class="extra images"><a><img style="width: 35%;" src="{{image_url}}/'+ val.se_image_ref +'_500"></a></div></div></div>';
+            
+            items.push( itemHtml );
+        });
+        
+        $("#side_line_data_div").html(items.join( "" ))
+        
+    });
+    
+    window.setTimeout( updateSideline,10000);
+}
+
+function updateBottomline(){
+
+    $.getJSON( "/sig/data", { ks_key : session_key }, function( data ) {
+        
+        var items = [];
+        
+        $.each( data.data, function( key, val ) {
+            
+            //console.log ("found ", key, val );
+            
+            itemHtml= '<div style="float:left; width:150px; max-height:150px;"><div class=""><img style="display: block; max-width:100px; height:80px; margin: 0 auto;" src="{{image_url}}/'+ val.ssd_image_ref +'"><div style="font-size:0.7em; font-weight: 600; text-align:center;">'+
+            val.ssd_title +
+            '</div><div style="font-size:0.7em; font-weight: 400; text-align:center;">'+
+            val.ssd_message +
+            '</div></div></div>';   
+
+            sourceHtml= '<div style="font-size:0.7em; font-weight: 400; text-align:left; color: #AAD; font-style: italic;">' + val.ss_title + ' ' + val.ss_url + '</div>';
+            
+            items.push( itemHtml );
+        });
+        
+        $("#bottom_line_data_div").html(items.join( "" ))
+        
+        $("#bottom_line_source_div").html(sourceHtml);
+        
+    });
+    
+    window.setTimeout( updateBottomline,10000);
+}
+
+
+
+
+function updateKioskSession(){
+
+    $.getJSON( "/sig/session", { ks_key : session_key }, function( data ) {
+        
+        var image_ref= data.ks_center_image_ref;
+        if ( image_ref ){
+            $('#center_image_source').attr("src","{{image_url}}/" + image_ref );
+            $('#center_image').show();
+        }else{
+            $('#center_image').hide();
+        }
+
+        var video_url= data.ks_video_url;
+        if ( video_url ){
+            
+            if ( !play_video ) {
+                
+                if ( player && player_ready && !player_error ){
+                    
+                    console.log ("loading video with id ", video_url );
+                    
+                    play_video= true;
+                    $('#center_video').show();
+                    player.loadVideoById(video_url);
+                }
+            }
+        }else{
+            
+        }
+    });
+    
+    window.setTimeout( updateKioskSession,5000);
+}
+
+
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('center_video_source', {
+        playerVars: {
+            color: 'white',
+            height: '720',
+            width: '1280',
+        },
+        events: {
+            onStateChange: onPlayerStateChange,
+            onReady: onReady,
+            onError: onPlayerError
+        }
+    });
+}
+
+function onPlayerError(event){
+    
+    console.log ("player error ", event );
+    player_error= true;
+    $('#center_video').hide();
+    play_video= false;
+}
+
+function onReady(event){
+    player_ready = true;
+    console.log ("ready loading player " );
+}
+
+function onPlayerStateChange(event) {
+    
+    console.log ( "player event ", event );
+    
+    if ( ( event.data == YT.PlayerState.ENDED || event.data == YT.PlayerState.PAUSED ) && play_video ){
+     
+        $('#center_video').hide();
+        play_video= false;
+
+        console.log ( "hiding player " );
+    }
+}
+
+
+
+
+
+
+$(document).ready(function() {
+    
+        updateSideline();
+        updateBottomline();
+        updateKioskSession();
+        
+    
+        var latLng = new google.maps.LatLng(latitude, longitude);
+        var mapOptions = 
+        {
+          center: latLng,
+          zoom: zoom,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles: sigStyleOptions,
+          zoomControl: true,
+          mapTypeControl: false,
+          scaleControl: true,
+          streetViewControl: false,
+          rotateControl: false
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        var markers = [];
+        
+        google.maps.event.addListener(map, 'click', function(event) 
+        {
+        });
+        
+        map.addListener('center_changed', function() 
+        {
+            longitude=map.getCenter().lng();
+            latitude=map.getCenter().lat();
+            
+            console.log ( 'center changed to ' + map.getCenter() );
+            fetchData(latitude,longitude,zoom,map);
+        });
+        
+        map.addListener('zoom_changed', function() 
+        {
+            zoom= map.getZoom();
+            
+            console.log ( 'zoom changed to ' + zoom );
+            fetchData(latitude,longitude,zoom,map);
+        });
+        
+        fetchData(latitude,longitude,zoom,map);
+        
+    });    
+
+
+var fetchData = function() 
+{
+    var infowindow =  new google.maps.InfoWindow({        content: ''    });
+    
+    console.log ( 'fetch map data ' );
+    
+    jQuery.ajax({
+        url : '/sig/map/data',
+        type : 'get',
+        data : { ks_key : session_key },
+        dataType : 'json',
+        success : function(response) 
+        {
+            //console.log ( 'response ' + JSON.stringify(response) );
+            
+            promotions = response;
+            
+            // loop through places and add markers
+            for (p in promotions) 
+            {
+                var detail= '' + promotions[p].pr_count + ' ';
+                if ( promotions[p].pr_count > 1 )
+                    detail= detail + 'Anfragen';
+                else
+                    detail= detail + 'Anfrage';
+                
+                detail= detail+ '<br /><a href="/hotspot?li_id=' + promotions[p].li_id + '">Details</a>'
+                var title= promotions[p].li_comment;
+                
+                var size= 60 + promotions[p].li_vitality * 2;
+                var icon= {
+                        url: '/image/' + promotions[p].li_marker_reference,
+                        // This marker is 20 pixels wide by 32 pixels high.
+                        scaledSize: new google.maps.Size(size, size),
+                        // The origin for this image is (0, 0).
+                        //origin: new google.maps.Point(20, 20),
+                        // The anchor for this image is the base of the flagpole at (0, 32).
+                        anchor: new google.maps.Point(size/2, size/2)
+                      };
+                
+                tmpLatLng = new google.maps.LatLng( promotions[p].li_lat, promotions[p].li_long);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: tmpLatLng,
+                    icon: icon,
+                    title :  title
+                });
+                bindInfoWindow(marker, map, infowindow, '<b>' + title + "</b><br>" + detail );
+            }
+            
+            window.setTimeout( fetchData, 30000 );
+        }
+    })
+};
+
+var bindInfoWindow = function(marker, map, infowindow, html) 
+{
+    google.maps.event.addListener(marker, 'click', function() 
+    {
+        infowindow.setContent(html);
+        infowindow.open(map, marker);
+    });
+} 
+</script>
+
+<div class="pusher">
+    <div>
+        <div class="ui basic vertical segment" style="padding: 20px; margin-top:0; height: calc(100vh - 280px); width:70vw;">
+            
+            <div id="map_canvas" style="height: calc(100vh - 280px); width:100%; "></div>
+            
+            <div id="center_image" style="position:absolute; top:0;left:0; width:100%; height:calc(100vh - 280px); z-index:1000; display:none; overflow:hidden;">
+                <img id="center_image_source" alt="" src="" style="height:auto; width: auto; max-height: 90%; max-width: 90%; padding:40px; margin: auto auto; display:block;">
+            </div>
+            
+            <div id="center_video" style="position:absolute; top:60px;left:0; width:100%; height:calc(100vh - 280px); z-index:1001; display:none; overflow:hidden;">
+                <div style="height: 100%; width:100%; margin: auto auto; ">
+                    <div id="center_video_source" style="display:block; width:1120px; height: 630px; margin: auto auto;"></div>
+                </div>
+            </div>
+            
+            
+            
+        </div>
+        <div class="ui basic vertical segment" style="">
+            <div id="bottom_line" style="height: 200px; width:70vw; background-color: #fff; padding: 10px; z-index:900;">
+                <div id="bottom_line_data_div" style="background-color: #fff; width:100%; min-height:20px; height:150px; display:block;">
+                </div>
+                <div id="bottom_line_source_div" style="background-color: #fff; width:100%; height:30px; display:block; float:clear; padding-left:10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <div id="side_line" style="height: 100vh; max-height: 100vh; overflow: hidden; width:29vw; position:absolute; top: 0; right: 0; background-color: #FFF; padding: 20px; z-index:900;">
+
+            <div id="side_line_data">
+            
+                <div class="ui twelve wide column">
+                    <div class="ui feed" id="side_line_data_div">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <div id="ticker_line" style="height: 80px; width:100vw; position:absolute; bottom: 0; left: 0; background-color: #FFF; padding: 10px; z-index:900;">
+            
+            <div id="ticker_line_logo"  style="font-size:2em; display:inline-block; width:10vw; height: 60px; background: #FFF;">
+                <img style="height:60px;" src="/images/helptoday_logo_large.png">
+            </div>
+            <div id="ticker_line_container" style="display:inline-block; width:85vw; font-size:2em; text-align:middle; height: 60px; background: #0073BF; color: #FFF; border-radius: 18px; ">
+                <div id="ticker_line_data" class="ticker-wrap" style="padding-bottom: 10px;">
+                    <div class="ticker">
+                        <div class="ticker__item">help2day SOCIAL IMPACT GRAPH unterstützt von netidee 2016. Wir helfen zur richtigen Zeit am richtigen Ort. www.help2day.org. Schau drauf.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

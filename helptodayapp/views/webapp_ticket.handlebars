@@ -1,0 +1,103 @@
+{{> header_webapp}}
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="ui row">
+                <div class="ui eleven wide centered column">
+                    <h1 class="ui centered header">Zusage</h1>
+                </div>
+            </div>
+            
+            <div class="ui row">
+                <div class="ui fourteen wide column">
+                    <div class="ui stackable centered two cards">
+                        <div class="ui centered card">        
+                    
+                            <div class="content">
+
+                              <div class="description">
+                              
+                                <img class="left floated tiny ui image" src="{{image_url}}/{{ticket.gi_image_reference}}_500">
+                                
+                                {{#if ticket.gi_is_redeemed}}
+                                    <div class="ui teal right corner label"><i class="checkmark icon"></i></div>
+                                {{else}}
+                                    {{#if ticket.gi_is_canceled}}
+                                        <div class="ui red right corner label"><i class="remove icon"></i></div>
+                                    {{else}}
+                                        <div class="ui teal right corner label"><i class="wait icon"></i></div>
+                                    {{/if}}
+                                {{/if}}
+                                    
+                                
+                                
+                                <p>
+                                    <i class="ui announcement icon"></i>{{ticket.gi_comment}}
+                                </p>
+                                
+                                <p>
+                                    <i class="ui heart icon"></i>{{ticket.gi_user_comment}}
+                                </p>
+                              </div>
+                            </div>
+                            
+                            <div class="extra content">
+                                <div class="left floated author">
+                                   <a href="/hotspot?li_id={{ticket.li_id}}" class="ui avatar image">
+                                      <img class="ui avatar image" src="/image/{{ticket.li_marker_reference}}"> 
+                                   </a>
+                                  {{ticket.li_comment}}
+                                </div>
+                            </div>
+                            
+                            <div class="extra content">
+                                <span class="left floated"><i class="ui info icon"></i> {{ticket.pr_hint}}</span>
+                            </div>
+                            
+                            
+                            <div class="extra content">
+                                <p>
+                                    <i class="ui wait icon"></i>{{ticketAblauf ticket}}
+                                </p>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{#if ticket.gi_is_active}}
+            
+            <div class="ui doubling eight column centered row">
+                <div class="ui four wide center aligned column">
+                        <a class="ui medium blue button" href="/ticket/redeem?gi_id={{ticket.gi_id}}"><i class="heart icon"></i>Erledigt</a>
+                </div>
+            </div>
+            
+            <div class="ui horizontal divider">
+                Oder
+            </div>
+            
+            
+            <div class="ui doubling one column centered row">
+                <h3>
+                    Falls du die Anfrage nicht erfüllen kannst, <a class="ui link" href="/ticket/cancel?gi_id={{ticket.gi_id}}">storniere</a> bitte das Ticket. Damit kann die Hilfsorganisation besser planen.
+                </h3>
+            </div>
+            
+            {{/if}}
+            
+        </div>
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

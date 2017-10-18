@@ -1,0 +1,91 @@
+
+<script>
+    $(document).ready(function()
+    {
+        $('.ui.form').form(
+        {
+            fields :
+            {
+                email :
+                {
+                    identifier : 'email',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Please enter your e-mail'
+                    },
+                    {
+                        type : 'email',
+                        prompt : 'Please enter a valid e-mail'
+                    } ]
+                }
+            }
+        });
+        
+        
+        {{#if message}}
+           $('#message_modal').modal({}).modal('show');
+        {{/if}}
+
+    });
+</script>
+
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+
+<div class="pusher">
+    
+    {{> vertical_banner}}
+    
+    <div class="ui basic vertical segment">
+    
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="eight wide column">
+    
+                <form action="/forgot" method="POST" class="ui form">
+    
+                    <div class="ui attached message">
+                        <div class="header">Hallo,</div>
+                        <p>hier kannst du dein Password zurücksetzen. Bitte gebe dazu die eMail Adresse ein, die du für die Registrierung verwendet hast.</p>
+                    </div>
+    
+                    <div class="ui attached segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i> <input type="email" name="email" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="ui blue submit button">Neues Password anfordern</div>
+                    </div>
+                </form>
+            </div>
+    
+            <div class="ui horizontal divider">Oder</div>
+    
+            <p>Zurück zur <a href="/login">Login</a> Seite</p>
+    
+        </div>
+    </div>
+    
+    
+    <div class="ui basic segment"></div>
+    
+</div>
+
+
+{{> footer}}
+

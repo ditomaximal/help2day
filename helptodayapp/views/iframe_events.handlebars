@@ -1,0 +1,62 @@
+{{> header_accordion}}
+
+<div class="ui basic vertical segment">
+    <div class="ui one column stackable centered grid container">
+        {{#unless events}}
+            <div class="ui one column stackable centered grid container">
+                <div class="ui row">
+                    <div class="ui eleven wide centered column">
+                        <div class="ui compact info message">
+                          <div class="header">
+                            Es sind derzeit keine Events veröffentlicht
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/unless}}
+    
+        <div class="ui twelve wide column">
+            <div class="ui feed" >
+              
+                {{#each events}}
+                
+                  <div class="event">
+                    <div class="label">
+                      <img src="/apple-touch-icon.png">
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        
+                        {{this.se_title}}
+                        
+                        <div class="date">
+                          vor 10 Minuten
+                        </div>
+                      </div>
+                      
+                      <div class="extra text">
+                        {{this.se_message}}
+                      </div>
+                      
+                      <div class="extra images">
+                        <a>
+                            <img src="{{image_url}}/{{this.se_image_ref}}_500">
+                        </a>
+                      </div>
+                      
+                      <div class="meta">
+                        <a class="like">
+                          <i class="like icon"></i> 1 Like
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                
+                {{/each}}
+              
+            </div>
+        </div>
+    </div>
+</div>
+

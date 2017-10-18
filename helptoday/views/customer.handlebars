@@ -1,0 +1,410 @@
+{{> header_crm}}
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('#cu_default_image_ref_button').click(function(){
+        $('#cu_default_image_ref').modal('show');
+    });
+    
+    
+    $('#cu_default_marker_button').click(function(){
+        $('#cu_default_marker').modal('show');
+    });
+});
+</script>
+
+
+<div class="ui modal" id="cu_default_image_ref">
+  <i class="close icon"></i>
+  <div class="header">
+    Standardbild für Standorte
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="{{image_url}}/{{customer.cu_default_image_ref}}_500">
+    </div>
+  </div>
+  
+  <div class="content">
+
+      <form class="ui form" method="POST" id="theform" action="/upload/hotspotdefaultimage?cu_id={{customer.cu_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+ 
+        <div class="two fields">
+        
+            <div class="field">
+                <label>Name</label> <input type="text" name="cu_default_image_ref" hint="Beschreibung des Bildes">
+            </div>
+            <div class="field">
+                <label>Datei</label> <input type="file" accept="image/*" maxlength="2000000" name="cu_default_image_ref" hint="Datei auswählen">
+            </div>
+        </div>
+ 
+      </form>
+  
+  </div>
+  
+  <div class="actions">
+    <div class="ui grey deny button">Zurück</div>
+    <input type="submit" value="Laden" form="theform" class="ui positive button">
+  </div>
+</div>
+
+
+
+
+<div class="ui modal" id="cu_default_marker">
+  <i class="close icon"></i>
+  <div class="header">
+    Standardmarker für Standorte
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="{{image_url}}/{{customer.cu_default_marker}}">
+    </div>
+    
+    <div class="description">
+      <form class="ui form" method="POST" id="theform1" action="/upload/hotspotdefaultmarker?cu_id={{customer.cu_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+ 
+            <div class="field">
+                <label>Datei</label> <input type="file" accept="image/*" maxlength="2000000" name="cu_default_marker" hint="Datei auswählen">
+            </div>
+ 
+      </form>
+    </div>
+    
+  </div>
+  
+  <div class="actions">
+    <div class="ui grey deny button">Zurück</div>
+    <input type="submit" value="Laden" form="theform1" class="ui positive button">
+  </div>
+</div>
+
+
+
+
+
+
+{{#if customer.cu_id}}
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/settings/customer?cu_id={{customer.cu_id}}">
+            
+                <h2 class="ui dividing header">Status</h2>
+
+                
+                {{#if user.us_superadmin}}
+                    <div class="field">
+    
+                        <div class="ui mini four ordered steps">
+    
+                          {{#if customer.cu_confirmation1}}
+                              <div class="completed step">
+                          {{else}}
+                              {{#if customer.cu_confirmation1_block}}
+                                  <div class="disabled step">
+                              {{else}}
+                                  <div class="active step">
+                              {{/if}}
+                          {{/if}}
+                            <div class="content">
+                              <div class="title">Prüfung</div>
+                              <div class="description">NGO OK?</div>
+                            </div>                            
+                          </div>
+                          {{#if customer.cu_confirmation2}}
+                              <div class="completed step">
+                          {{else}}
+                              {{#if customer.cu_confirmation2_block}}
+                                  <div class="disabled step">
+                              {{else}}
+                                  <div class="active step">
+                              {{/if}}
+                          {{/if}}
+                            <div class="content">
+                              <div class="title">Prüfung</div>
+                              <div class="description">4 Augen</div>
+                            </div>
+                          </div>
+                          {{#if customer.cu_data_confirmation}}
+                              <div class="completed step">
+                          {{else}}
+                              <div class="active step">
+                          {{/if}}
+                            <div class="content">
+                              <div class="title">Daten</div>
+                              <div class="description">Alles da?</div>
+                            </div>
+                          </div>
+                          {{#if customer.cu_validated}}
+                              <div class="completed step">
+                          {{else}}
+                              {{#if customer.cu_activation_block}}
+                                  <div class="disabled step">
+                              {{else}}
+                                  <div class="active step">
+                              {{/if}}
+                          {{/if}}
+                            <div class="content">
+                              <div class="title">Aktivierung</div>
+                              <div class="description">Los gehts</div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                {{else}}
+                
+                    <div class="field">
+                          {{#if customer.cu_validated}}
+                              <label>Registrierungsstatus</label> <input disabled type="text" name="" value="freigeschaltet und aktiv">
+                          {{else}}
+                              <label>Registrierungsstatus</label> <input disabled type="text" name="" value="in Bearbeitung">
+                          {{/if}}
+                    </div>
+                
+                {{/if}}
+                
+                {{#if user.us_superadmin}}
+                    <div class="four fields">
+                        <div class="field">
+                            {{#if customer.cu_confirmation1}}
+                                <a class="ui fluid basic disabled button" href="">Bestätigung</a>
+                            {{else}}
+                                {{#if customer.cu_confirmation1_block}}
+                                    <a class="ui fluid basic disabled button" href="">Bestätigung</a>
+                                {{else}}
+                                    <a class="ui fluid blue button" href="/customer/validation?cv_code=cv1&cv_customer_id={{customer.cu_id}}">Bestätigung</a>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                        
+                        <div class="field">
+                            {{#if customer.cu_confirmation2}}
+                                <a class="ui fluid basic disabled button" href="">Bestätigung</a>
+                            {{else}}
+                                {{#if customer.cu_confirmation2_block}}
+                                    <a class="ui fluid basic disabled button" href="">Bestätigung</a>
+                                {{else}}
+                                    <a class="ui fluid blue button" href="/customer/validation?cv_code=cv2&cv_customer_id={{customer.cu_id}}">Bestätigung</a>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                        
+                        <div class="field">
+                            {{#if customer.cu_data_confirmation}}
+                                <a class="ui fluid basic disabled button" href="">Daten</a>
+                            {{else}}
+                                <a class="ui fluid blue button" href="/customer/validation?cv_code=cv3&cv_customer_id={{customer.cu_id}}">Daten</a>
+                            {{/if}}
+                        </div>
+                        
+                        <div class="field">
+                            {{#if customer.cu_validated}}
+                                <a class="ui fluid basic disabled button" href="">Aktivieren</a>
+                            {{else}}
+                                {{#if customer.cu_activation_block}}
+                                    <a class="ui fluid basic disabled button" href="">Aktivieren</a>
+                                {{else}}
+                                    <a class="ui fluid green button" href="/customer/validation?cv_code=cv4&cv_customer_id={{customer.cu_id}}">Aktivieren</a>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    
+                    <div class="four fields">
+                        <div class="field">
+                            <div class="ui basic pointing label">{{customer.cu_confirmation1hint}}</div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="ui basic pointing label">{{customer.cu_confirmation2hint}}</div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="ui basic pointing label">{{customer.cu_data_confirmationhint}}</div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="ui basic pointing label">{{customer.cu_activationhint}}</div>
+                        </div>
+                    </div>
+                {{/if}}
+                
+
+
+
+                
+                <h2 class="ui dividing header">Kontaktinformation</h2>
+            
+                <div class="field">
+                    <label>Voller Name</label> <input disabled type="text" name="cu_full_name" value="{{customer.cu_full_name}}">
+                </div>
+                
+                <div class="field">
+                    <label>Email Adresse</label> <input type="text" name="cu_email" value="{{customer.cu_email}}">
+                </div>
+
+                <div class="field">
+                    <label>Adresse</label> <textarea name="cu_address" cols="40" rows="5">{{customer.cu_address}}</textarea>
+                </div>
+
+
+                
+                
+
+
+                <h2 class="ui dividing header">Defaultwerte für Standorte</h2>
+
+                <div class="field">
+                    <label>Kategorie</label> <input type="text" name="cu_default_category" value="{{customer.cu_default_category}}">
+                </div>
+
+                <div class="two fields">
+                
+                    <div class="field">
+                        <label>Längengrad (dezimal)</label> <input type="text" name="cu_default_long" value="{{customer.cu_default_long}}">
+                    </div>
+                    <div class="field">
+                        <label>Breitengrad (dezimal)</label> <input type="text" name="cu_default_lat" value="{{customer.cu_default_lat}}">
+                    </div>
+                </div>
+
+
+                <div class="two fields">
+                
+                    <div class="field">
+                        <label>Standardbild für Standorte</label> 
+                        <img class="ui small bordered image" id="cu_default_image_ref_button" src="{{image_url}}/{{customer.cu_default_image_ref}}_500">
+                        
+                    </div>
+                    <div class="field">
+                        <label>Standardbild für Marker</label>
+                        <img class="ui small bordered image" id="cu_default_marker_button" src="{{image_url}}/{{customer.cu_default_marker}}">
+                        
+                    </div>
+                </div>
+
+
+ 
+                <h2 class="ui dividing header">Rechnungsinformation</h2>
+                
+                <div class="field">
+                    <label>UID Nummer</label> <input type="text" name="cu_tax_id" value="{{customer.cu_tax_id}}">
+                </div>
+                
+                <div class="field">
+                    <label>Rechnungsreferenz</label> <input type="text" name="cu_reference" value="{{customer.cu_reference}}">
+                </div>
+                
+                
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui grey button" href="/settings">Zurück</a>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+{{/if}}
+
+
+
+
+
+
+
+
+<div class="ui divider"></div>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+        <div class="ui nine wide centered column">
+                <h1 class="ui centered header">Standardbilder für Profile</h1>
+        </div>
+    
+        <div class="ui nine wide column">
+    
+            <table class="ui very basic table">        
+                <tbody>
+                
+                    {{#each profiles}}
+                    
+                            <tr>
+                                <td>
+                                    <a class="ui left floated tiny ui image" href="/profile?pro_id={{this.pro_id}}">
+                                        <img style="width:100%;" src="{{image_url}}/{{this.pim_promotion_image_reference}}_100">
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    <p>
+                                        {{this.pro_description}}
+                                    </p>
+                                </td>
+                            </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+    
+        </div>
+    
+    </div>
+</div>
+
+
+<div class="ui divider"></div>
+
+<div class="ui basic vertical segment">
+
+
+    <div class="ui one column centered stackable grid container">
+            
+        <div class="ui nine wide centered column">
+            <h1 class="ui centered header">Allgemeine Standardbilder</h1>
+        </div>
+
+        <div class="ui nine wide centered column">
+            <div class="ui three stackable link cards">        
+
+            {{#each images}}
+
+            <div id="{{this.imc_id}}" class="card">
+                <a class="ui image" href="/imagecache?imc_id={{this.imc_id}}"> 
+                    <img src="{{image_url}}/{{this.imc_image_reference}}_500">
+                </a>
+                <div class="content">
+                    <div class="meta">
+                        <p>{{this.imc_comment}}</p>
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+
+
+
+      
+{{> footer}}
+      
+      

@@ -1,0 +1,176 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    
+    var fields = $('.thank-helper-container');
+    var container = $('#thank-user-container'); 
+    var width = container.width(); 
+    var height = container.height();
+    var angle = (1.5*Math.PI);
+    var step = (1.4*Math.PI) / fields.length;
+    var radius = height*0.95;
+    var timeout= 0;
+    
+    console.log('DEBUG: radius ' + radius + ' width ' + width );
+    
+    fields.each(function() {
+        var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
+        var y = Math.round(radius + radius * Math.sin(angle) - $(this).height()/2);
+        var div= this;
+        
+        if(window.console) 
+            console.log(angle, x, y);
+        $(this).css({
+            left: x + 'px',
+            top: y + 'px'
+        });
+        angle += step;
+
+        timeout+= 200;
+        setTimeout(function(){
+            $(div).fadeIn();
+        },timeout);
+
+        
+    });    
+
+    
+});
+</script>
+
+
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="ui row" style="padding-top:4em;">
+
+                <div class="ui fourteen wide column">
+                
+                    <div class="ui fluid section" >
+
+                        <div class="computeronly" style="display:inline-block;">
+                            <a href="/hotspot?li_id={{ticket.li_id}}"><img class="thank-image" style="float:left;" src="/image/{{ticket.pi_gift_image_reference}}"></a>
+                        </div>                          
+                      
+                        <div class="computeronly" style="display:inline-block; width:50%; margin-left:1em;">
+                        
+                            <div class="thank-headline" style="display:inline-block;  margin-bottom:0.5em;">
+                                Danke, 
+                            </div>
+                            <div class="thank-headline-nickname" style="display:inline-block;  margin-bottom:0.5em;">
+                                {{user.us_nickname}}
+                            </div>
+                                                      
+                            <div class="thank-impact">
+                                Durch deine Hilfe kann »{{ticket.cu_full_name}}« {{ticket.pr_impact}}
+                            </div>                          
+                        </div>      
+                        
+                        <div class="mobileonly" style="display:inline-block; width:90%; margin:1em;">
+                        
+                            <div class="thank-headline" style="display:inline-block;  margin-bottom:0.5em;">
+                                Danke, 
+                            </div>
+                            <div class="thank-headline-nickname" style="display:inline-block;  margin-bottom:0.5em;">
+                                {{user.us_nickname}}
+                            </div>
+                                                      
+                            <div class="thank-impact">
+                                Durch deine Hilfe kann »{{ticket.cu_full_name}}« {{ticket.pr_impact}}.
+                            </div>                          
+                        </div>      
+
+
+                 
+                        <div class="computeronly" style="padding-top:4em; padding-bottom:6em; width:30%; display:inline-block; position:relative;">
+                        
+                            <div id="thank-user-container" style="display: inline-block;">
+    
+                                <div>
+                                    <a href="/settings"><img class="thank-user-central-image" src="/image/{{user.us_image_ref}}"></a>
+                                </div>                          
+                                
+                                <div class="thank-user-central-nickname">
+                                    <a href="/settings">{{user.us_nickname}}</a>
+                                </div>                          
+                            
+                            </div>      
+                            
+                            
+                            {{#each helpers}}
+
+                                <div class="thank-helper-container" style="position:absolute; display:none">
+        
+                                    <div>
+                                        <a class="ui link" href="/user/about?us_id={{this.us_id}}"><img class="thank-helper-image" src="/image/{{this.us_image_ref}}"></a>
+                                    </div>                          
+                                    
+                                    <div class="thank-helper-nickname">
+                                        {{this.us_nickname}}
+                                    </div>                          
+                                
+                                </div>      
+
+                            {{/each}}
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            {{#if ticket.pr_impact_long}}
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+
+                    <div class="ui basic center aligned segment">    
+                        {{#if ticket.pr_impact_image_ref}}
+                            <div style="display:block;">
+                                <img class="thank-impact-image" src="/image/{{ticket.pr_impact_image_ref}}">
+                            </div>      
+                        {{else}}
+                            <div style="display:block;">
+                                <img class="thank-image" src="/image/help2dayimpact">
+                            </div>      
+                        {{/if}}
+                        
+                    </div>
+                    <div class="ui basic center aligned segment">    
+                        <div class="thank-impact-long" style="display:block;">
+                            „{{ticket.pr_impact_long}}‟
+                        </div>                          
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+
+            
+            <div class="ui row">
+                <div class="ui twelve wide column">
+                    {{> promotion_detail_short}}
+                </div>
+            </div>
+            
+            <div class="ui basic segment">    </div>
+            <div class="ui basic segment">    </div>
+            <div class="ui basic segment">    </div>
+            
+        </div>
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

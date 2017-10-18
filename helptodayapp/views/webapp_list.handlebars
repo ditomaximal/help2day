@@ -1,0 +1,68 @@
+ {{> header_webapp}}
+
+
+
+
+
+<div class="pusher">
+
+    <div class="ui basic segment"></div>
+    <div class="ui basic segment"></div>
+
+
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column stackable centered grid container">
+
+            <div class="ui eleven wide column">
+                <div class="ui basic center aligned segment">
+
+                    <h2 class="ui header">
+                        <div class="content">Standorte</div>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="ui eleven wide column">
+
+                <div class="ui stackable two cards">
+
+                    {{#each hotspots}}
+
+                        <div id="{{this.li_id}}" class="card">
+    
+                            <div class="content">
+                                <div class="description">
+    
+                                    <a class="left floated tiny ui image" href="/hotspot?li_id={{this.li_id}}"> <img src="{{image_url}}/{{this.li_image_ref}}_500">
+                                    </a>
+    
+                                    <p>{{this.li_comment}}</p>
+    
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                
+                                <a class="ui" href="http://{{{this.li_promotion}}}">{{this.li_promotion}}</a>
+                                <span class="right floated">
+                                    <i class="eye icon"></i> {{this.li_view_count}}
+                                </span>
+                                
+                            </div>
+    
+                        </div>
+
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui basic segment"></div>
+    <div class="ui basic segment"></div>
+
+
+</div>
+
+{{> footer}}
+

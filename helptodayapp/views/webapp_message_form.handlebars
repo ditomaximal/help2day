@@ -1,0 +1,58 @@
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+    });
+</script>
+
+<div class="pusher">
+
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+
+    <div class="ui one column centered stackable grid container">
+    
+        <div class="ui row">
+            <div class="ui eight wide centered column">
+                <h2 class="ui centered header">Nachricht an {{recipient.us_nickname}}</h2>
+            </div>
+        </div>
+        
+        <div class="ui row">
+        
+            <div class="eight wide centered column">
+            
+            
+                <form class="ui form" action="/message" method="post">
+                
+                    <input type="hidden" name="me_user_id" value="{{recipient.us_id}}">
+                    
+                    <div class="field">
+                        <label>Empfänger</label>
+                        <input disabled type="text" placeholder="{{recipient.us_nickname}}" value="{{recipient.us_nickname}}">
+                    </div>
+                    
+                    <div class="field">
+                        <label>Titel</label>
+                        <input type="text" name="me_title" placeholder="Betreff" value="{{title}}">
+                    </div>
+                
+                  <div class="field">
+                    <label>Nachricht</label>
+                    <textarea rows="6" name="me_message" maxlength="1000"></textarea>
+                  </div>
+                  
+                  <button class="ui basic blue button" type="submit">Abschicken</button>
+                  <a class="ui basic grey button" href="/messages">Zurück</a>
+                  
+                </form>
+            
+            </div>    
+        </div>    
+    </div>
+    <div class="ui basic segment">
+    </div>
+</div>
+{{> footer}}

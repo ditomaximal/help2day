@@ -1,0 +1,112 @@
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+        $('.ui.form').form(
+        {
+            fields :
+            {
+                us_pw :
+                {
+                    identifier  : 'password',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Please enter your password'
+                    },
+                    {
+                        type : 'length[4]',
+                        prompt : 'Your password must be at least 4 characters'
+                    } ]
+                },
+                us_confirmation :
+                {
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Please enter your password'
+                    },
+                    {
+                        type : 'match[us_pw]',
+                        prompt : 'Die zweite Zeile muss gleich sein wie die erste Zeile'
+                    } ]
+                }
+            }
+        });
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+
+
+<div class="pusher">
+    
+    {{> vertical_banner}}
+    
+    <div class="ui basic vertical segment">
+    
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="eight wide column">
+    
+                <form action="/reset?token={{token}}" method="POST" class="ui form">
+    
+                    {{#if message}}
+                    <div class="ui attached negative message">
+                        <div class="header">Hallo {{ user.us_nickname }}</div>
+                        <p>{{ message }}</p>
+                    </div>
+                    {{else}}
+                    <div class="ui attached message">
+                        <div class="header">Hallo,</div>
+                        <p>bitte hier das neue Password und die Kopie als Bestätigung eingeben.</p>
+                    </div>
+                    {{/if}}
+    
+                    <div class="ui attached segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i> <input type="password" name="us_pw" placeholder="Neues Password">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i> <input type="password" name="us_confirmation" placeholder="Password Bestätigung">
+                            </div>
+                        </div>
+                        <div class="ui blue submit button">Password ändern</div>
+                        <div class="ui error message"></div>
+                    </div>
+                </form>
+            </div>
+    
+            <div class="ui horizontal divider">Oder</div>
+    
+            <p>Zurück zur <a href="/login">Login</a> Seite</p>
+    
+        </div>
+    </div>
+    
+    
+    <div class="ui basic segment"></div>
+    
+</div>
+
+
+{{> footer}}
+

@@ -1,0 +1,91 @@
+{{> header_crm}}
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('#pim_promotion_image_reference_button').click(function()
+    {
+        $('#pim_promotion_image_reference').modal('show');
+    });
+
+});
+</script>
+
+
+<div class="ui modal" id="pim_promotion_image_reference">
+  <i class="close icon"></i>
+  
+  <div class="header">
+    Standardbild für Profilelement
+  </div>
+
+  <div class="content">
+
+      <div class="ui basic segment">
+      
+         <h3 class="header">
+            Standardbilder zum Auswählen
+        </h3>
+      
+        <div class="ui small images">
+            {{#each images}}
+                <a class="ui image" href="/set/profileimage?pro_id={{../profile.pro_id}}&imc_id={{this.imc_id}}"> 
+                    <img src="{{image_url}}/{{this.imc_image_reference}}_200">
+                </a>
+            {{/each}}
+        </div>
+      </div>
+
+      <div class="ui basic segment">
+         <h3 class="header">
+            Bilddatei hochladen
+        </h3>
+
+        <form class="ui form" method="POST" id="theform" action="/upload/profileimage?pro_id={{profile.pro_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+            <div class="two fields">
+                <div class="field">
+                    <label>Bilddatei</label> <input type="file" accept="image/*" maxlength="2000000" name="pim_promotion_image_reference" hint="Datei auswählen">
+                </div>
+            </div>
+        </form>
+        
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui grey deny button">Zurück</div>
+    <input type="submit" value="Laden" form="theform" class="ui positive button">
+  </div>
+</div>
+
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/profile?pro_id={{profile.pro_id}}">
+            
+                <h2 class="ui dividing header">Profileinstellungen</h2>
+            
+                <div class="disabled field">
+                    <label>Profilname</label> <input type="text" value="{{profile.pro_name}}">
+                </div>
+                
+                <div class="field">
+                    <img id="pim_promotion_image_reference_button" class="ui medium centered image" src="{{image_url}}/{{profilemap.pim_promotion_image_reference}}_500">
+                </div>
+
+<!--                 <button class="ui blue button" type="submit">Speichern</button> -->
+                <a class="ui grey button" href="/settings/customer">Zurück</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui basic segment">
+</div>
+      
+{{> footer}}

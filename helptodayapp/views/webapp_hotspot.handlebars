@@ -1,0 +1,107 @@
+{{> header_webapp}}
+
+{{> header_accordion}}
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic vertical center aligned segment">
+
+        <div class="ui one column stackable centered grid container">
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+                    <h2 class="ui header h2dtitlecolor">{{hotspot.li_comment}}</h2>
+                    
+                    <span>Hier siehst du Detailinformation zu dem Standort.
+                    </span>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+                    <div class="ui center aligned basic segment">
+                    
+                    
+                        <table class="ui very basic table">
+                          <tbody>
+                            <tr>
+                              <td class="four wide">Adresse
+                              </td>
+                              <td class="nine wide">{{hotspot.li_address}}
+                              </td>
+                            </tr>
+                            
+                            {{#if hotspot.li_detail}}
+                            <tr>
+                              <td>Beschreibung</td>
+                              <td>{{hotspot.li_detail}}</a></td>
+                            </tr>
+                           {{/if}} 
+                           
+                            <tr>
+                              <td>Telefon</td>
+                              <td><a href="tel:{{hotspot.li_phone}}">{{hotspot.li_phone}}</a></td>
+                            </tr>
+                            <tr>
+                              <td>Ansprechperson</td>
+                              <td>{{hotspot.li_contact_name}}</td>
+                            </tr>
+                            <tr>
+                              <td>Link</td>
+                              <td><a class="ui link" href="{{{hotspot.li_promotion}}}" target="_blank">{{hotspot.li_promotion}}</a></td>
+                            </tr>
+                            
+                           {{#if hotspot.li_special_url}}
+                            <tr>
+                              <td>Weiterer Bedarf</td>
+                              <td><a class="ui link" href="{{{hotspot.li_special_url}}}" target="_blank">{{hotspot.li_special_url}}</a></td>
+                            </tr>
+                           {{/if}} 
+                           
+                        </tbody></table>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    {{#if promotions}}
+    
+    <div class="ui basic vertical segment">
+        <div class="ui one column stackable centered grid container">
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+                    <h2 class="ui header h2dtitlecolor">Aktuelle Hilfsanfragen</h2>
+                    
+                    <span>Hier siehst du aktuelle Hilfsanfragen an dem Standort.
+                    </span>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="ui twelve wide column">
+                    <div class="ui fluid accordion" >
+                      
+                        {{#each promotions}}
+                        
+                            {{> promotion_accordion_hotspot}}
+                        
+                        {{/each}}
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{/if}}
+    
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+</div>
+      
+      
+{{> footer}}
+      
+      

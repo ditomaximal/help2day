@@ -1,0 +1,64 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+<div class="pusher">
+
+    <div class="ui basic segment"></div>
+    <div class="ui basic segment"></div>
+
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column stackable centered grid container">
+
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+
+{{> systemmessage}}
+
+
+{{> intro}}
+
+                    <h2 class="ui header headercolor" >Aktuelle Anfragen</h2>
+                    
+                    <p>Hier siehst du eine Liste der aktuellen Anfragen unserer Hilfsorganisationen.             
+                    <a class="ui link" href="/signup">Registriere</a> dich um über neue Hilfsanfragen benachrichtigt zu werden.
+                </div>
+            </div>
+
+            {{#unless promotions}}
+            
+            <div class="ui one column stackable centered grid container">
+                <div class="ui row">
+                    <div class="ui eleven wide centered column">
+                        <div class="ui compact info message">
+                          <div class="header">
+                            Es sind derzeit keine dringenden Hilfsanfragen veröffentlicht
+                          </div>
+                          
+                          Das liegt aber nicht daran, dass es keinen Hilfsbedarf gibt, sondern eher daran, dass viele Hilfsorganisationen noch nicht 
+                          mit help2day arbeiten. Falls du eine Organisation kennst, die Sachspenden und einfache Hilfeleistungen benötigt, 
+                          melde dich bitte bei uns unter <a href="mailto:office@help2day.org?subject=Hilfsorganisation" >office@help2day.org</a>. Es ist sehr einfach bei help2day.org mitzumachen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/unless}}
+
+            <div class="ui twelve wide column">
+                <div class="ui accordion" >
+                  
+                    {{#each promotions}}
+                    
+                        {{> promotion_accoridon_static}}
+
+                    {{/each}}
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui basic segment"></div>
+</div>
+
+{{> footer}}
+

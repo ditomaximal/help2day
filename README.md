@@ -39,7 +39,7 @@ tool that produces a public display page which can be shown on screens in order 
 ### Language
 
 Since we are located in Austria, the current version of the system is coded for **German** language. We are looking for support for internationalization 
-of the software and for building of language packages for English, Greek and Kroatian language.
+of the software and for building of language packages for English, Greek and Croatian language.
 
 
 
@@ -62,7 +62,7 @@ The following video gives an overview of the functions of the web app (in german
 
 The following video gives an overview of the functions and usage of the CRM tool. 
 
-![help2day CRM overview (german)](http://img.youtube.com/vi/VvIGxH3NhJs/0.jpg)](http://www.youtube.com/watch?v=VvIGxH3NhJs)
+![help2day CRM overview (german)](http://www.youtube.com/watch?v=VvIGxH3NhJs)
 
 
 

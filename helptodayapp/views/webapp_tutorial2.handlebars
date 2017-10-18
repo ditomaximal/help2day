@@ -1,0 +1,146 @@
+
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+
+
+<div class="pusher">
+
+    {{> vertical_banner}}
+    
+    <div class="ui one column centered stackable grid container">
+    
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <div class="ui steps">
+                  <div class="completed step">
+                    <i class="write icon"></i>
+                    <div class="content">
+                      <div class="title">Registrieren</div>
+                      <div class="description">Registriere dich auf help2day</div>
+                    </div>
+                  </div>
+                  <div class="active step">
+                    <i class="search icon"></i>
+                    <div class="content">
+                      <div class="title">Hilfsanfragen suchen</div>
+                      <div class="description">Suche nach Hilfsanfragen und bestätige sie.</div>
+                    </div>
+                  </div>
+                  <div class="disabled step">
+                    <i class="info icon"></i>
+                    <div class="content">
+                      <div class="title">Rückmeldung</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>    
+        
+        <div class="ui basic segment">    </div>
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <h1 class="ui header" style="text-align: center; font-weight:300;">
+                    2. Schritt: Hilfsanfrage suchen und zusagen
+                </h1>
+            </div>    
+        </div>    
+        <div class="ui basic segment">    </div>
+        
+        
+        <div class="ui row">
+            <div class="ui basic segment">    </div>
+            <div class="eleven wide column">
+        
+                <h2 class="ui dividing header">Was ist das Ziel dieses Schrittes?</h2>
+        
+                    <p>
+                        Mit diesem Schritt wollen wir testen, ob die Suche nach Hilfsanfragen funktioniert und ob die Bestätigung von Hilfsanfragen funktioniert.
+                        
+                    </p>
+        
+                <h2 class="ui dividing header">Wie finde ich Hilfsanfragen?</h2>
+        
+                    <p>
+                        Die Web App zeigt Hilfsanfragen direkt am Bildschirm nach dem <b>Login</b>. 
+                    </p>
+                    <p>
+                        Die Seite mit den aktuellen Hilfsanfragen kann auch über das Menü am oberen Rand angewählt werden.
+                        Klicke einfach auf das <i class="heart icon"></i> über <b>Anfragen</b>.
+                    </p>
+                    <p>
+                        Die Seite mit den aktuellen Hilfsanfragen zeigt eine Liste von aktiven Anfragen. Du kannst durch diese Liste
+                        durchgehen indem du die Liste nach oben scrollst.
+                    </p>
+                    <p>
+                        Wenn dich eine Hilfsanfrage interessiert, klicke auf das Bild um die <b>Detailansicht</b> zu sehen.
+                    </p>
+        
+                <h2 class="ui dividing header">Wie kann ich eine Hilfsanfrage bestätigen?</h2>
+                    <p>
+                        Wenn du eine Hilfsanfrage gefunden hast, die du erfüllen willst, drücke den Button <b>Zusagen</b> und folge dem Herzen <i class="heart icon"></i>.
+                        Die weiteren Schritte sollten selbst erklärend sein.
+                    </p>
+                    <p>
+                        Wenn du erfolgreich eine Hilfsanfrage bestätigt hast, findest du dein eigenes Ticket für diese Anfrage in
+                        deinem <b>Status</b>. Dort kannst du die Details deiner Zusage immer einsehen.
+                    </p>
+                    <p>
+                        Wenn du dann im Echtbetrieb deine Hilfeleistung oder Sachspende am Standort der Anfrage abgibst, vergiss bitte nicht
+                        das Ticket als erledigt zu bestätigen. Damit kann die Hilfsorganisation genauer nachvollziehen, was
+                        der Status der Hilfsanfrage ist.
+                    </p>
+        
+                <h2 class="ui dividing header">Spaß</h2>
+                
+                    <p>
+                        Falls dir das Testen zu mühselig ist, dann klicke dich einfach durch die App und schau wo du landest. Wir sind im Testbetrieb, es kann nichts
+                        passieren.
+                        Wir würden uns aber sehr über <a href="/feedback">Rückmeldung</a> freuen, wie du die App findest.
+                    </p>
+                
+                <h2 class="ui dividing header">Danke</h2>
+                    <p>
+                        Wir bedanken uns sehr herzlich, dass du uns beim Testen unterstützt. Damit schaffen wir gemeinsam einen Baustein für eine
+                        bessere Zukunft!
+                    </p>
+                
+            </div>    
+        </div>    
+
+
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <form class="ui form" action="/tutorial" method="get">
+                  <input name="id" type="hidden" value="3"></input>
+                  <button class="ui blue button" type="submit">Letzter Schritt</button>
+                </form>
+            </div>    
+        </div>
+        
+    </div>
+    
+    <div class="ui basic segment">
+    </div>
+  
+</div>
+
+{{> footer}}

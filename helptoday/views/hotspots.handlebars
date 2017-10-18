@@ -1,0 +1,120 @@
+
+{{> header_crm}}
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+
+        {{#if user.us_admin}}
+        <div class="ui eleven wide column">
+            <div class="ui basic center aligned segment">
+
+                <a href="/hotspot/create" class="ui medium circular icon button">
+                    <i class="blue icon plus"></i>
+                </a>
+
+                <h2 class="ui header">
+                    <div class="content">
+                        Neuen Standort anlegen
+                    </div>
+                </h2>
+            </div>
+        </div>
+        {{/if}}
+        
+
+        <div class="ui eleven wide column">
+
+            <table class="ui very basic table">        
+                <tbody>
+
+                {{#each hotspots}}
+                
+                    <tr id="{{this.li_id}}">
+                        <td>
+                            <a class="ui avatar image" href="/hotspot?li_id={{this.li_id}}">
+                                <img src="{{image_url}}/{{this.li_image_ref}}_100">
+                                
+                            </a>
+                        </td>
+                        
+                        <td>
+                            <p><a class="ui link" href="/hotspot?li_id={{this.li_id}}">{{this.li_comment}}</a></p>
+                        </td>
+                        
+                        <td>
+                            <div class="ui label">
+                              <i class="eye icon"></i> {{this.li_view_count}}
+                            </div>
+                        </td>
+                        <td>
+                                {{#if this.li_is_deactivated}}
+                                    <div class="ui red label">Inaktiv</div>
+                                {{else}}
+                                    <div class="ui teal label">Aktiv</div>
+                                {{/if}}
+                        </td>
+                    </tr>
+
+                {{/each}}
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+<!--             <div class="ui three stackable link cards">         -->
+                
+<!--                 {{#each hotspots}} -->
+                                    
+<!--                 <div id="{{this.li_id}}" class="card"> -->
+                
+<!--                         <a class="ui image" href="/hotspot?li_id={{this.li_id}}"> -->
+                        
+                        
+<!--                         {{#if this.li_is_deactivated}} -->
+<!--                             <div class="ui red ribbon label">Inaktiv</div> -->
+<!--                         {{else}} -->
+<!--                             <div class="ui teal ribbon label">Aktiv</div> -->
+<!--                         {{/if}} -->
+                        
+                        
+                        
+                        
+<!--                             <img src="{{image_url}}/{{this.li_image_ref}}_500"> -->
+<!--                         </a> -->
+<!--                     <div class="content"> -->
+<!--                       <div class="description"> -->
+<!--                         <p>{{this.li_comment}}</p> -->
+<!--                       </div> -->
+<!--                     </div> -->
+                    
+<!--                     <div class="extra"> -->
+<!--                         <div class="ui label"> -->
+<!--                           <i class="heart icon"></i> {{this.li_agree}} -->
+<!--                         </div> -->
+<!--                         <div class="ui label"> -->
+<!--                           <i class="eye icon"></i> {{this.li_view_count}} -->
+<!--                         </div> -->
+                    
+<!--                     </div> -->
+                    
+<!--                 </div> -->
+                
+<!--                 {{/each}} -->
+<!--             </div> -->
+        </div>
+    </div>
+</div>
+      
+      
+      
+<div class="ui basic segment"></div>
+      
+{{> footer}}
+      
+      

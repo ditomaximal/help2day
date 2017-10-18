@@ -1,0 +1,62 @@
+{{> header_crm}}
+
+
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="nine wide column">
+        
+            <h2 class="ui dividing header">Rollen und weitere Einstellungen</h2>
+
+            <br />
+
+            <table class="ui striped table">
+              <thead>
+                <tr>
+                <th>Name</th>
+                <th>eMail</th>
+                <th>Rolle</th>
+                <th>Aktion</th>
+              </tr></thead>
+              <tbody>
+              
+                {{#each roles}}
+              
+                    <tr>
+                      <td>{{this.us_nickname}}</td>
+                      <td>{{this.us_email}}</td>
+                      <td>{{this.ro_name}}</td>
+                      
+                      {{#if ../user.us_admin}}
+                           <td><a class="ui grey label" href="/settings/remove/role?urm_id={{this.urm_id}}">Entfernen</a> </td>
+                      {{else}}
+                           <td>--</td>
+                      {{/if}}
+                    </tr>
+
+                {{/each}}
+                
+              </tbody>
+            </table>         
+            
+            {{#if user.us_admin}}
+                <a class="ui blue button" href="/settings/create/role?cu_id={{this.cu_id}}" type="submit">Neue Rolle</a>
+            {{else}}
+                <a class="ui disabled blue button">Neue Rolle</a>
+            {{/if}}
+               
+        </div>
+    </div>
+</div>
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+      
+{{> footer}}
+      
+      

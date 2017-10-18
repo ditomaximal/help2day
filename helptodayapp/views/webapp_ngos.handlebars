@@ -1,0 +1,48 @@
+ {{> header_webapp}}
+
+<div class="pusher">
+    <div class="ui basic segment"></div>
+    <div class="ui basic segment"></div>
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column stackable centered grid container">
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+                    <h2 class="ui header h2dtitlecolor">Hilfsorganisationen bei help2day</h2>
+                    
+                    <span>Hier siehst du eine Liste der Hilfsorganisationen, die derzeit bei help2day registriert sind.
+                    </span>
+                </div>
+            </div>
+
+            <div class="ui row">
+                <div class="ui twelve wide column">
+                    <div class="ui stackable two cards">
+    
+                        {{#each ngos}}
+                            <div id="{{this.cu_id}}" class="basic card">
+                                <div class="content">
+                                    <div class="description">
+        
+                                        <a class="left floated tiny ui image" href="/ngo?cu_id={{this.cu_id}}"> <img src="{{image_url}}/{{this.cu_default_image_ref}}_500">
+                                        </a>
+        
+                                        <p>{{this.cu_full_name}}</p>
+        
+                                    </div>
+                                </div>
+                                <div class="extra content">
+                                    <a class="ui" href="http://{{{this.cu_webpage}}}">{{{this.cu_webpage}}}</a>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui basic segment"></div>
+    <div class="ui basic segment"></div>
+</div>
+{{> footer}}
+

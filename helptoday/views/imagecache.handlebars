@@ -1,0 +1,44 @@
+{{> header_crm}}
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('.ui.dropdown').dropdown();
+
+});
+</script>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/imagecache?imc_id={{image.imc_id}}">
+            
+                <h2 class="ui dividing header">Standardbild</h2>
+            
+                <div class="field">
+                    <input type="hidden" name="imc_image_reference" value="{{image.imc_image_reference}}">
+                    <img class="ui medium centered image" src="{{image_url}}/{{image.imc_image_reference}}_500">
+                </div>
+
+                <div class="field">
+                    <label>Kommentar</label> <input type="text" name="imc_comment" value="{{image.imc_comment}}">
+                </div>
+
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui grey button" href="/settings/customer">Zurück</a>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="ui basic segment">
+</div>
+
+
+      
+{{> footer}}

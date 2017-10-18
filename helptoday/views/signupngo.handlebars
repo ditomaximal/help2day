@@ -1,0 +1,159 @@
+
+<script>
+    $(document).ready(function()
+    {
+        $('.ui.form').form(
+        {
+            fields :
+            {
+                email :
+                {
+                    identifier : 'email',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Bitte eine gültige eMail Adresse angeben'
+                    },
+                    {
+                        type : 'email',
+                        prompt : 'Bitte eine gültige eMail Adresse angeben'
+                    } ]
+                },
+                password :
+                {
+                    identifier : 'password',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Bitte ein Password angeben.'
+                    },
+                    {
+                        type : 'length[6]',
+                        prompt : 'Das Password muss länger als 6 Zeichen sein.'
+                    } ]
+                },
+                name :
+                {
+                    identifier : 'ngo',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Bitte einen Namen für die NGO angeben.'
+                    },
+                    {
+                        type : 'length[6]',
+                        prompt : 'Der Name der NGO muss mindestens 6 Zeichen lang sein.'
+                    } ]
+                }
+            }
+        });
+    });
+</script>
+
+
+<div class="pusher">
+
+    {{> header_nologin}}
+    
+    
+    <div class="ui basic vertical padding segment"></div>
+
+
+    <div class="ui basic vertical segment">
+        <img class="ui centered image" src="/images/helptoday_logo_large.png">
+    </div>
+    <div class="ui basic padded segment"></div>
+    
+    
+    
+    <div class="ui basic vertical segment">
+    
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="eight wide column">
+    
+                <form action="/signupngo" method="POST" class="ui form">
+    
+                    {{#if message}}
+                    <div class="ui attached negative message">
+                        <div class="header">Hallo {{ user.us_nickname }}</div>
+                        <p>{{ message }}</p>
+                    </div>
+                    {{else}}
+                    <div class="ui attached message">
+                        <div class="header">Willkommen bei help2day</div>
+                        <p>
+                            Hier kannst du deine NGO registrieren. 
+                            Bitte fülle die Felder aus und schicke die Daten ab. 
+                            Wir melden uns in Kürze um die Registrierung abzuschliessen.
+                            Bei Fragen schicke uns bitte eine eMail an <a href="mailto:office@help2day.org">office@help2day.org</a>.
+                        </p>
+                    </div>
+                    {{/if}}
+    
+                    <div class="ui attached segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="university icon"></i> <input type="text" name="ngo" maxlength="60" placeholder="Name der Organisation">
+                            </div>
+                            <div class="ui pointing label">Name der Organisation.</div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="marker icon"></i> <input type="text" name="address" maxlength="300" placeholder="Adresse der NGO">
+                            </div>
+                            <div class="ui pointing label">Adresse der Zentrale der NGO.</div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i> <input type="text" name="contact" maxlength="64" placeholder="Kontaktperson">
+                            </div>
+                            <div class="ui pointing label">Name der Kontaktperson.</div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="mobile icon"></i> <input type="text" name="phone" maxlength="64" placeholder="Telefonnummer">
+                            </div>
+                            <div class="ui pointing label">Telefonnummer für nächste Schritte.</div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="browser icon"></i> <input type="text" name="webpage" maxlength="1024" placeholder="Web Page">
+                            </div>
+                            <div class="ui pointing label">Web Page falls vorhanden.</div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="at icon"></i> <input type="text" name="email" maxlength="1024" placeholder="E-mail Adresse">
+                            </div>
+                            <div class="ui pointing label">eMail Adresse für Korrespondenz.</div>
+                        </div>
+                        
+                        <div class="ui blue submit button">NGO Daten abschicken</div>
+                        
+                        <div class="ui error message"></div>
+                    </div>
+    
+                </form>
+    
+            </div>
+    
+    
+            <div class="ui horizontal divider">Oder</div>
+    
+    
+        <p>Zurück zur <a href="/login">Login</a> Seite</p>
+    
+    
+        </div>
+    </div>
+    
+    <div class="ui basic segment"></div>
+    
+</div>
+
+
+{{> footer}}

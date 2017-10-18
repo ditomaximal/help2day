@@ -1,0 +1,154 @@
+
+{{> header_crm}}
+
+
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+});
+</script>
+
+
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/settings">
+            
+                <h2 class="ui dividing header">Kontaktinformation</h2>
+            
+                <div class="field">
+                    <label>Nickname</label> <input type="text" name="us_nickname" value="{{user.us_nickname}}">
+                </div>
+                
+                {{#if user.us_facebook_id}}
+                    <div class="disabled field">
+                        <label>Facebook ID</label> <input type="text" value="{{user.us_facebook_id}}">
+                    </div>
+                {{/if}}
+
+                <div class="disabled field">
+                    <label>eMail</label> <input type="text" name="us_email" value="{{user.us_email}}">
+                </div>
+                
+                <div class="field">
+                    <label>Mobiltelefon</label> <input type="text" name="us_phone" value="{{user.us_phone}}">
+                </div>
+                
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui grey button" href="/main">Zurück</a>
+                
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{{#if roles}}
+
+<div class="ui basic segment">
+</div>
+    
+    
+<div class="ui divider"></div>
+
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="nine wide column">
+        
+            <h2 class="ui dividing header" id='roles'>Eigene Rolle</h2>
+
+            <p>Du kannst das CRM immer nur mit einer Rolle verwenden. Bitte wähle hier die aktive Rolle aus.</p>
+
+            <table class="ui striped table">
+              <thead>
+                <tr><th>Organisation</th>
+                <th>Rolle</th>
+                <th>Aktiv</th>
+                <th>Aktion</th>
+              </tr></thead>
+              <tbody>
+              
+                {{#each roles}}
+              
+                    <tr>
+                      
+                      {{#if ../user.us_admin}}
+                          <td><a class="header" href="/settings/customer?cu_id={{this.cu_id}}">{{this.cu_full_name}}</a></td>
+                      {{else}}
+                          <td>{{this.cu_full_name}}</td>
+                      {{/if}}
+                      
+                      <td>{{this.ro_name}}</td>
+                      
+                      {{#if this.ro_is_active}}
+                          <td><i class="ui checkmark icon"></i></td>
+                          <td><div class="ui grey label">Annehmen</div> </td>
+                      {{else}}
+                          <td></td>
+                          <td><a class="ui blue label" href="/settings/take/role?ro_id={{this.ro_id}}">Annehmen</a> </td>
+                      {{/if}}
+
+                    </tr>
+
+                {{/each}}
+                
+              </tbody>
+            </table>            
+        </div>
+    </div>
+</div>
+
+{{else}}
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+            <div class="ui text basic segment">
+            </div>
+        
+            <div class="ui icon message">
+              <i class="inbox icon"></i>
+              <div class="content">
+                <div class="header">
+                  Willst du mitarbeiten?
+                </div>
+                
+                <p>
+                  Falls du Interesse hast hier mitzuarbeiten, sende uns eine 
+                  <a href="/contact">Anfrage</a>. Wir freuen uns von dir zu hören.
+                </p> 
+                  
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{/if}}
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+      
+{{> footer}}
+      
+      

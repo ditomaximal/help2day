@@ -1,0 +1,64 @@
+{{> header_webapp}}
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic vertical center aligned segment">
+
+        <div class="ui one column stackable grid container">
+    
+            <div class="ui row">
+                <div class="ui eleven wide centered column">
+                    
+                    <h2 class="ui centered header">Interesse mehr zu helfen?</h2>
+                    
+                    <div class="ui raised segment">
+                        <p>
+                            Diese Hilfsanfrage ist nur für registrierte Helfer sichtbar, da diese Form der Hilfe erfordert, dass dich die Leute am Standort kennen. 
+                            Du kannst dich gerne am Standort {{hotspot.li_comment}} informieren. Die Kontaktinformationen sind unten angeführt.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            
+            
+            <div class="ui row">
+                <div class="ui fourteen wide centered column">
+                    <div class="ui center aligned basic segment">
+                    
+                    
+                        <table class="ui very basic table">
+                          <tbody>
+                            <tr>
+                              <td class="four wide">Adresse</td>
+                              <td class="nine wide"><a href="geo:{{hotspot.li_long}},{{hotspot.li_lang}}">{{hotspot.li_address}}</a></td>
+                            </tr>
+                            <tr>
+                              <td>Telefon</td>
+                              <td><a href="tel:{{hotspot.li_phone}}">{{hotspot.li_phone}}</a></td>
+                            </tr>
+                            <tr>
+                              <td>Ansprechperson</td>
+                              <td>{{hotspot.li_contact_name}}</td>
+                            </tr>
+                        </tbody></table>
+                    </div>                    
+                </div>
+            </div>
+
+        </div>
+    
+    </div>
+    
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+</div>
+      
+      
+{{> footer}}
+      
+      

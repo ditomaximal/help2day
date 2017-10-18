@@ -1,0 +1,63 @@
+{{> header_crm}}
+
+<div class="ui basic vertical segment">
+</div>
+
+
+<div class="ui basic vertical segment">
+    <div class="ui centered grid container">
+        <div class="ui twelve wide column">
+            <h1 class="ui centered header">NGOs und Kunden</h1>
+            <table class="ui very basic table">        
+            
+                <thead>
+                
+                </thead>
+                    <tr>
+                        <th>Bild</th>
+                        <th>Name</th>
+                        <th>Registrierung</th>
+                        <th>Status</th>
+                    </tr>
+                <tbody>
+                    {{#each customers}}
+                    
+                            <tr id="{{this.cu_id}}">
+                                <td>
+                                    <a class="ui avatar image" href="/settings/customer?cu_id={{this.cu_id}}">
+                                        <img src="{{image_url}}/{{this.cu_default_image_ref}}_100">
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    <p>{{this.cu_full_name}}</p>
+                                </td>
+                                
+                                <td>
+                                    <p>{{this.cu_created_string}}</p>
+                                </td>
+                                
+                                <td>
+                                    <p>{{this.cu_status}}</p>
+                                </td>
+                                
+                            </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>        
+</div>
+
+
+<div class="ui divider"></div>
+
+
+
+<div class="ui basic vertical segment">
+</div>
+
+      
+{{> footer}}
+      
+      

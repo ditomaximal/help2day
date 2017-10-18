@@ -1,0 +1,156 @@
+
+{{> header_nologin}}
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.5&appId=974244905934517";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+                    
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('.ui.checkbox').checkbox();
+    
+    $('#fb_sharing_button').click(function()
+    {
+        FB.ui({
+            method: 'share',
+            href: '{{server_url}}/i/like/{{hotspot.li_id}}',
+          }, function(response){});
+    });
+
+    $('#hotspot_map_button').click(function()
+    {
+        $.get('/hotspot/location?li_id={{hotspot.li_id}}');
+    });
+});
+</script>
+
+
+
+{{#if hotspot}}
+
+<div class="ui basic vertical segment padding">
+
+    <div class="ui one column centered stackable grid container">
+
+        
+        <div class="ui nine wide centered column">
+            <div class="ui centered card">        
+                <div class="image">
+                  <img src="{{image_url}}/{{hotspot.li_image_ref}}_500">
+                </div>
+                <div class="content">
+                  <div class="description">
+                    <p>{{hotspot.li_comment}}</p>
+                  </div>
+                  
+                   <div class="meta">
+                    <span class="name">{{hotspot.us_nickname}}, </span>
+                    <span class="date">{{hotspot.li_date_created_string}}</span>
+                   </div>
+                  
+                </div>
+                
+                <div class="extra">
+                    <div class="ui label">
+                      <i class="heart icon"></i> {{hotspot.li_agree}}
+                    </div>
+                    <div class="ui label">
+                      <i class="eye icon"></i> {{hotspot.li_vitality}}
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ui nine wide centered padding column">
+
+            <div class="ui two column stackable grid">
+                <div class="column">
+                    <div class="ui basic center aligned very padded segment">
+                        <a title="Download GREX" href="https://play.google.com/store/apps/details?id=com.grex_app.mobile" target="_blank"> <img class="size-full wp-image-280 aligncenter" src="https://api.grex-app.com/api1/googleplaybutton.png"
+                            alt="googleplaybutton" width="176" />
+                        </a>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui basic center aligned very padded segment">
+                        <a title="Download GREX" href="https://itunes.apple.com/at/app/grex-wissen-was-lauft/id950679335" target="_blank"> <img class="size-full wp-image-280 aligncenter"
+                            src="https://api.grex-app.com/api1/Download_on_the_App_Store_Badge_DE_Source_135x40.png" alt="itunesbutton" width="200" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="ui padded segment">
+                {{hotspot.li_details}}
+            </div>
+            
+            
+        </div>
+        
+        
+        <div class="ui nine wide centered padding column">
+
+            <div class="ui one column stackable grid">
+                <div class="column">
+                    <div class="ui basic center aligned very padded segment">
+                        <button class="ui facebook button" id="fb_sharing_button">
+                          <i class="facebook icon"></i>
+                          Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+        
+        
+        
+    </div>
+</div>
+
+{{else}}
+
+<div class="ui container">
+
+    <div class="ui text basic padded segment">
+
+        <div class="ui icon message">
+          <i class="photo icon"></i>
+          <div class="content">
+            <div class="header">
+              ups
+            </div>
+            <p>
+                Dieser Hotspot existiert leider nicht. Hol dir die App und mach selber ein paar Hotspots. Es gibt sicher ein paar Geheimtips in deiner Nähe.
+            </p>
+          </div>
+        </div>
+  </div>
+</div>
+
+
+
+
+{{/if}}
+
+
+
+
+{{> footer}}      
+      

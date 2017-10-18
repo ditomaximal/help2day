@@ -1,0 +1,46 @@
+
+{{> header_crm}}
+
+
+
+<script type="text/javascript">
+</script>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/recipient?re_id={{recipient.re_id}}">
+            
+                <h2 class="ui dividing header">Empfängerdaten</h2>
+            
+                <div class="field">
+                    <label>eMail</label> <input type="text" name="re_email" value="{{recipient.re_email}}">
+                </div>
+                
+                <div class="field">
+                    <label>Mobiltelefon</label> <input type="text" name="re_phone" value="{{recipient.re_phone}}">
+                </div>
+                
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui grey button" href="/recipients?page={{page}}">Zurück</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+      
+{{> footer}}
+      
+      

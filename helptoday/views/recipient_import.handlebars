@@ -1,0 +1,46 @@
+
+{{> header_crm}}
+
+
+
+<script type="text/javascript">
+</script>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/recipient/import">
+            
+                <h2 class="ui dividing header">Import von eMails für Empfängerliste</h2>
+            
+                <div class="field">
+                    <label>eMail Liste für Import</label>
+                    <textarea name="re_import"></textarea>
+                    <div class="ui pointing above label">
+                        Bitte kopiere die Liste mit eMail Adressen aus deinem Excel Sheet und füge sie hier ein.
+                    </div>
+                </div>
+                
+                <button class="ui blue button" type="submit">Importieren</button>
+                <a class="ui grey button" href="/recipients?page=0">Zurück</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+      
+{{> footer}}
+      
+      

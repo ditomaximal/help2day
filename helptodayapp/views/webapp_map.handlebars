@@ -1,0 +1,130 @@
+{{> header_webapp}}
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}"></script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    var longitude='16.37';
+    var latitude='48.209';
+    var zoom= 11;
+
+    {{#if user}}
+        longitude={{user.us_long}};
+        latitude={{user.us_lat}};
+        zoom={{user.us_zoom}};
+    {{/if}}
+    
+
+    var latLng = new google.maps.LatLng(latitude, longitude);
+    var mapOptions = 
+    {
+      center: latLng,
+      zoom: zoom,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoomControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: false
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    var markers = [];
+    
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+    });
+    
+    map.addListener('center_changed', function() 
+    {
+        longitude=map.getCenter().lng();
+        latitude=map.getCenter().lat();
+        
+        console.log ( 'center changed to ' + map.getCenter() );
+        fetchData(latitude,longitude,zoom,map);
+    });
+    
+    map.addListener('zoom_changed', function() 
+    {
+        zoom= map.getZoom();
+        
+        console.log ( 'zoom changed to ' + zoom );
+        fetchData(latitude,longitude,zoom,map);
+    });
+    
+    fetchData(latitude,longitude,zoom,map);
+    
+});
+    
+
+var fetchData = function( lat, lng, zoom, map ) 
+{
+    var infowindow =  new google.maps.InfoWindow({        content: ''    });
+    
+    jQuery.ajax({
+        url : '/map/data',
+        type : 'get',
+        data : { latitude: lat, longitude: lng, range:zoom, limit:42 },
+        dataType : 'json',
+        success : function(response) 
+        {
+            console.log ( 'response ' + JSON.stringify(response) );
+            
+            promotions = response;
+            
+            // loop through places and add markers
+            for (p in promotions) 
+            {
+                var detail= '' + promotions[p].pr_count + ' ';
+                if ( promotions[p].pr_count > 1 )
+                    detail= detail + 'Anfragen';
+                else
+                    detail= detail + 'Anfrage';
+                
+                detail= detail+ '<br /><a href="/hotspot?li_id=' + promotions[p].li_id + '">Details</a>'
+                var title= promotions[p].li_comment;
+                
+                var size= 80 + promotions[p].li_vitality * 2;
+                var icon= {
+                        url: '/image/' + promotions[p].li_marker_reference,
+                        // This marker is 20 pixels wide by 32 pixels high.
+                        scaledSize: new google.maps.Size(size, size),
+                        // The origin for this image is (0, 0).
+                        //origin: new google.maps.Point(20, 20),
+                        // The anchor for this image is the base of the flagpole at (0, 32).
+                        anchor: new google.maps.Point(size/2, size/2)
+                      };
+                
+                tmpLatLng = new google.maps.LatLng( promotions[p].li_lat, promotions[p].li_long);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: tmpLatLng,
+                    icon: icon,
+                    title :  title
+                });
+                bindInfoWindow(marker, map, infowindow, '<b>' + title + "</b><br>" + detail );
+            }
+        }
+    })
+};
+
+var bindInfoWindow = function(marker, map, infowindow, html) 
+{
+    google.maps.event.addListener(marker, 'click', function() 
+    {
+        infowindow.setContent(html);
+        infowindow.open(map, marker);
+    });
+} 
+</script>
+
+<div class="pusher">
+
+    <div class="ui basic vertical segment" style="height:100vh;" id="map_canvas">
+
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

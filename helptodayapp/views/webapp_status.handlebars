@@ -1,0 +1,115 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+<div class="pusher">
+
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+
+    {{#unless user.us_is_registered}}
+    <div class="ui one column stackable grid container">
+        <div class="ui row">
+            <div class="ui eleven wide centered column">
+                <div class="ui compact info message">
+                  <div class="header">
+                    Anonymer Account
+                  </div>
+                  <a href="/login">Registriere</a> dich bitte um deine Hilfeleistungen in Erinnerung zu halten und damit wir dich später erreichen können, falls
+                  es ganz dringende Hilfsanfragen gibt.
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/unless}}
+
+    <div class="ui center aligned basic vertical segment">
+    
+        <h1 class="ui header">
+            <a class="ui link" href="/settings">
+                <img class="ui small centered circular image" src="/image/{{user.us_image_ref}}_200">
+            </a>
+        </h1>
+    
+        <h2 class="ui header">
+               <a class="ui" style="color:#222;" href="/settings">{{user.us_nickname}}</a>
+        </h2>
+    </div>
+    
+    <div class="ui center aligned basic vertical segment" >
+    
+        <div style="position:relative; display:inline-block; text-align:center; ">
+            <div style="position:absolute; top:0.8em; font-size:2.3em; color:#fff; text-align:center;  width:100%;">{{user.us_gift_count}}</div>
+            <i class="fa fa-heart fa-fw" style="font-size:5.4em; color:rgba(0, 188, 242, 0.87) !important;"></i>
+        </div>
+        <a class="label promotion-highlight-color-soft" style="display:block; font-size:1.4em;" href="#inactive">
+             Deine Hilfeleistungen
+        </a>
+    </div>
+
+
+    <div class="ui basic vertical segment">
+    </div>
+
+    <div class="ui one column stackable centered grid container">
+        <div class="ui row" style="margin-bottom:-1em;">
+            <div class="ui eleven wide centered column">
+                <h3 class="ui header promotion-highlight-color open">offene Hilfe</h3>
+            </div>
+        </div>
+
+        <div class="ui row">
+            <div class="ui twelve wide column">
+                <div class="ui fluid accordion" >
+                  
+                    {{#each current_tickets}}
+                        {{#if this.gi_is_active}}                                 
+
+                            {{> promotion_accordion_status}}
+                    
+                          {{/if}}
+                     {{/each}}
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui one column stackable centered grid container">
+            
+        <div class="ui row" style="margin-bottom:-1em;">
+            <div class="ui eleven wide centered column">
+                <h3 class="ui header promotion-highlight-color done" id="inactive">erbrachte Hilfe</h3>
+            </div>
+        </div>
+    
+        <div class="ui row">
+            <div class="ui twelve wide column">
+                <div class="ui fluid accordion" >
+                  
+                    {{#each current_tickets}}
+                        {{#unless this.gi_is_active}}                                 
+                            {{#if this.gi_is_redeemed}}
+    
+                                {{> promotion_accordion_status_done}}
+    
+                            {{/if}}
+                        {{/unless}}
+                    {{/each}}
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <div class="ui basic segment">
+    </div>
+    <div class="ui basic segment">
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

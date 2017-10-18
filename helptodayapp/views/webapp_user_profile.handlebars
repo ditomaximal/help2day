@@ -1,0 +1,286 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+
+<script type="text/javascript">
+<!-- setup of navigation-->
+$(document)
+.ready(function() 
+{
+    $('.ui.checkbox').checkbox();
+
+    {{#each profile}}
+    $('#cbox'+{{this.cavn_category_value_id}}).checkbox('set checked');
+    {{/each}}
+    
+    
+});
+</script>
+
+
+
+
+
+<div class="pusher">
+
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+
+    <div class="ui one column centered stackable grid container">
+
+
+        <div class="ui row">
+        
+            <div class="eleven wide centered column">
+    
+                <h1 class="ui centered header">
+                    <img class="ui small centered circular image" src="/image/{{user.us_image_ref}}">
+                </h1>
+            
+                <h1 class="ui centered header">
+                    Profileinstellungen
+                </h1>
+    
+            </div>
+        </div>
+
+
+        <div class="ui row">
+            
+            <div class="ui eleven wide column">
+            
+                <form class="ui form" method="POST" action="/user/profile">
+                        
+                    <div class="ui accordion" >
+                      
+                        <div class="promotion-title-box title active">
+                        
+                            <div class="promotion-title-title">
+                                Bevorzugte Art der Hilfeleistung
+                            </div>
+                            
+                            <div style="position:absolute; top:0.5em; right:0.5em;">
+                                <i class="dropdown icon triggericon"></i>
+                            </div>
+                            
+                        
+                        </div>
+                        
+                        <div class="content promotion-content-box content">
+    
+                            <div class="inline field">
+                                <div class="ui checkbox" id="cbox1">
+                                    <input type="checkbox" tabindex="0" class="hidden" name="cbox1" >
+                                    <label id="label1">Sachspende</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                            
+                                <div class="ui checkbox" id="cbox2">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox2" >
+                                  <label id="label2">Zeitspende</label>
+                                </div>
+                            </div>
+                        </div>
+    
+    
+    
+    
+                        <div class="promotion-title-box title">
+                        
+                            <div class="promotion-title-title">
+                                Zielgruppen der Hilfeleistungen
+                            </div>
+                        
+                            <div style="position:absolute; top:0.5em; right:0.5em;">
+                                <i class="dropdown icon triggericon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="content promotion-content-box content">
+
+                            <div class="inline field">
+                                <div class="ui checkbox" id="cbox4">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox4" >
+                                  <label id="label4">Obdachlose</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox"  id="cbox5">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox5">
+                                  <label id="label5">Kinder</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox6">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox6" >
+                                  <label id="label6">Familien</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox7">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox7" >
+                                  <label id="label7">Flüchtlinge</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox8">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox8" >
+                                  <label id="label8">Pflegebedürftige</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox9">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox9" >
+                                  <label id="label9">Alte Menschen</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="promotion-title-box title">
+                        
+                            <div class="promotion-title-title">
+                                Bevorzugte Tätigkeiten bei Zeitspenden
+                            </div>
+                        
+                            <div style="position:absolute; top:0.5em; right:0.5em;">
+                                <i class="dropdown icon triggericon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="content promotion-content-box content">
+
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox10">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox10" >
+                                  <label id="label10">Erledigen</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox11">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox11" >
+                                  <label id="label11">Begleiten</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox12">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox12" >
+                                  <label id="label12">Versorgen</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox13">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox13" >
+                                  <label id="label13">Tiere versorgen</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox14">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox14" >
+                                  <label id="label14">Dolmetschen</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox15">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox15" >
+                                  <label id="label15">Lernhilfe</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+
+
+                        <div class="promotion-title-box title">
+                        
+                            <div class="promotion-title-title">
+                                Bevorzugte Arten von Sachspenden
+                            </div>
+                        
+                            <div style="position:absolute; top:0.5em; right:0.5em;">
+                                <i class="dropdown icon triggericon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="content promotion-content-box content">
+
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox16">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox16" >
+                                  <label id="label16">Kleidung</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox17">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox17" >
+                                  <label id="label17">Spielsachen</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox18">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox18" >
+                                  <label id="label18">Haushaltsausstattung</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox19">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox19" >
+                                  <label id="label19">Freizeit/Sportgeräte</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox20">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox20" >
+                                  <label id="label20">Lebensmittel</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox21">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox21" >
+                                  <label id="label21">Technische Geräte</label>
+                                </div>
+                            </div>
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox22">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox22" >
+                                  <label id="label22">Tiernahrung</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+
+
+
+
+
+
+                        
+                        
+                    </div>
+
+
+                    <div class="ui basic segment">    </div>
+                    <button class="ui basic blue button" type="submit">Speichern</button>
+                    <a class="ui basic grey button" href="/hilfsanfragen">Zurück</a>
+
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    
+    <div class="ui basic segment">
+    </div>
+    <div class="ui basic segment">
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

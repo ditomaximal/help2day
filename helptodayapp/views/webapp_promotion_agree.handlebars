@@ -1,0 +1,48 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic vertical segment">
+
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="ui basic vertical center aligned segment">
+                <h3>
+                    Bitte bestätige hier, daß du die Hilfeleistung erbringen willst.
+                </h3>
+            </div>
+            
+            <div class="ui row">
+
+                <div class="ui twelve wide column">
+                    <div class="ui fluid section" >
+                      
+                        {{>promotion_accoridon_agree}}
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui horizontal divider">
+            </div>
+            
+            <div class="ui doubling one column centered row">
+                <div class="ui twelve wide center aligned column">
+                        <a class="ui medium basic button" href="/hilfsanfragen?pr_id={{promotion.pr_id}}"><i class="left chevron icon"></i>Zurück</a>
+                </div>
+            </div>
+            
+            <div class="ui basic segment">    </div>
+
+            
+        </div>
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

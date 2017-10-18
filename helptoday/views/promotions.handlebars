@@ -1,0 +1,117 @@
+{{> header_crm}}
+
+<div class="ui basic vertical segment">
+</div>
+
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="nine wide column">
+            <div class="ui icon message">
+                <i class="user icon"></i>
+                <div class="content">
+                <p>
+                
+                    Um Hilfsanfragen anzulegen, suche bitte einen Standort aus, öffe diesen und lege dort eine neue Hilfsanfrage an.
+                    Hier gehts zur Liste der <a href="/hotspots">Standorte</a>.
+                    
+                 </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui basic vertical segment">
+    <div class="ui centered grid container">
+        <div class="ui twelve wide column">
+            <h1 class="ui centered header">Aktive Hilfsanfragen</h1>
+            <table class="ui very basic table">        
+                <tbody>
+                    {{#each promotions}}
+                    
+                        {{#if this.pr_is_active}}
+                        
+                            <tr id="{{this.pr_id}}">
+                                <td>
+                                    <a class="ui avatar image" href="/promotion?pr_id={{this.pr_id}}">
+                                        <img src="{{image_url}}/{{this.pr_gift_image_reference}}_100">
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    <p>{{this.pr_gift_comment_string}}</p>
+                                </td>
+                                
+                                <td>
+                                        <div class="ui label" style="width:80px;">
+                                           {{this.pr_current_count}} von {{this.pr_gift_count}} <br />zugesagt
+                                        </div>
+                                </td>
+                                
+                                <td>
+                                    <p>
+                                        {{this.pr_remaining_time_string}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>{{this.li_comment}}</p>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>        
+</div>
+
+
+<div class="ui divider"></div>
+
+
+<div class="ui basic vertical segment">
+    <div class="ui centered grid container">
+        <div class="ui twelve wide column">
+            <h1 class="ui centered header">Inaktive Hilfsanfragen</h1>
+            <table class="ui very basic table">        
+            <tbody>
+                
+            {{#each promotions}}
+                {{#if this.pr_is_active}}
+                {{else}}
+                
+                    <tr id="{{this.pr_id}}">
+                    
+                        <td>
+                            <a class="ui avatar image" href="/promotion?pr_id={{this.pr_id}}">
+                                <img src="{{image_url}}/{{this.pr_gift_image_reference}}_100">
+                            </a>
+                        </td>
+                        
+                        <td>
+                            <p>{{this.pr_gift_comment_string}}</p>
+                        </td>
+                        
+                        <td>
+                            <p>{{this.li_comment}}</p>
+                        </td>
+                        
+                    </tr>
+                {{/if}}
+            {{/each}}
+            
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui basic vertical segment">
+</div>
+
+      
+{{> footer}}
+      
+      

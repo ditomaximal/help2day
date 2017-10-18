@@ -1,0 +1,77 @@
+
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+<div class="pusher">
+    {{> vertical_banner}}
+    <div class="ui one column centered stackable grid container">
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <div class="ui steps">
+                  <div class="completed step">
+                    <i class="write icon"></i>
+                    <div class="content">
+                      <div class="title">Registrieren</div>
+                      <div class="description">Registriere dich auf help2day</div>
+                    </div>
+                  </div>
+                  <div class="completed step">
+                    <i class="search icon"></i>
+                    <div class="content">
+                      <div class="title">Hilfsanfragen suchen</div>
+                      <div class="description">Suche nach Hilfsanfragen und bestätige sie.</div>
+                    </div>
+                  </div>
+                  <div class="active step">
+                    <i class="info icon"></i>
+                    <div class="content">
+                      <div class="title">Rückmeldung</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>    
+        
+        <div class="ui basic segment">    </div>
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <h1 class="ui header" style="text-align: center; font-weight:300;">
+                    3. Schritt: Rückmeldung
+                </h1>
+            </div>    
+            <div class="ui basic segment">    </div>
+        </div>    
+        <div class="ui basic segment">    </div>
+        
+        
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                {{> feedback}}
+            </div>    
+        </div>    
+        
+    </div>
+    
+    <div class="ui basic segment">    </div>
+  
+</div>
+
+{{> footer}}

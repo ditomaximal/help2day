@@ -1,0 +1,85 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+<div class="pusher">
+
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+    <div class="ui basic vertical segment">    </div>
+
+    <div class="ui one column stackable centered grid container">
+        <div class="ui row">
+            <div class="ui eight wide centered column">
+                <h2 class="ui header">Nachrichten</h2>
+            </div>
+        </div>
+
+        <div class="ui row">
+            <div class="ui eight wide centered column">
+                <div class="ui feed" >
+                  
+                    {{#each messages}}
+                    <div class="event message-content-box">
+                        <div class="label">
+                          <img src="/image/{{this.us_image_ref}}">
+                        </div>
+                        <div class="content">
+                          <div class="summary">
+                            {{#if this.us_nickname}}
+                            <a class="user" href="/user/about?us_id={{this.me_sender_id}}">
+                                {{this.us_nickname}}
+                            </a> 
+                            {{/if}}
+                            {{this.me_title}}
+                            
+                            <div class="date">
+                                {{this.me_created_relative}}
+                                
+                                <a class="like" href="/message/form?me_user_id={{this.me_sender_id}}&me_title={{this.me_title}}">
+                                  <i class="fa fa-reply"></i>
+                                </a>
+                                <a class="like" href="/message/remove?me_id={{this.me_id}}">
+                                  <i class="fa fa-times"></i>
+                                </a>
+                                <a class="like" href="/message/read?me_id={{this.me_id}}">
+                                  <i class="fa fa-check-square-o"></i>
+                                </a>
+                                
+                            </div>
+                          </div>
+                          
+                          {{#if this.me_read}}
+                          <div class="extra text" style="color:#BBB;">
+                          {{else}}
+                          <div class="extra text">
+                          {{/if}}
+                              {{{this.me_message_html}}}
+                          </div>
+                          
+                          <div class="meta">
+                          
+                              {{#if this.me_read}}
+                              gelesen
+                              {{else}}
+                              neu
+                              {{/if}}
+                          </div>
+                          
+                          
+                          
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui basic segment">
+    </div>
+</div>
+      
+{{> footer}}
+      
+      

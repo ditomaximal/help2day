@@ -1,0 +1,166 @@
+
+{{> header_crm}}
+
+
+
+    <div class="ui basic padded segment"></div>
+    <div class="ui basic vertical segment">
+        <img class="ui centered image" src="/images/helptoday_logo_large.png">
+    </div>
+
+
+<div class="ui basic vertical segment padding">
+
+    <div class="ui two column centered stackable grid container">
+
+            {{#if user.us_mitarbeiter}}
+            
+            <div class="six wide column">
+
+                <div class="ui basic center aligned segment">
+
+                    <a href="/promotions" class="ui massive circular icon button">
+                        <i class="green icon gift"></i>
+                    </a>
+
+                    <h2 class="ui header">
+                        <div class="content">
+                            Hilfsanfragen
+                            <div class="sub header">Erstelle und ändere deine Hilfsanfragen</div>
+                        </div>
+                    </h2>
+                </div>
+            </div>
+            
+            {{/if}}
+            
+            <div class="six wide column">
+
+                <div class="ui basic center aligned segment">
+
+                    <a href="/hotspots" class="ui massive circular icon button">
+                        <i class="blue icon marker"></i>
+                    </a>
+
+                    <h2 class="ui header">
+                        <div class="content">
+                            Standorte
+                            <div class="sub header">Erstelle und ändere die Standorte</div>
+                        </div>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="six wide column">
+
+                <div class="ui basic center aligned segment">
+
+                    <a href="/settings" class="ui massive circular icon button">
+                        <i class="icon settings"></i>
+                    </a>
+
+                    <h2 class="ui header">
+                        <div class="content">
+                            Einstellungen
+                            <div class="sub header">Manage deine Account <a href="/settings">Einstellungen</a>.</div>
+                        </div>
+                    </h2>
+                </div>
+
+            </div>
+
+
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="ui basic segment">
+    </div>
+    
+    
+    {{#if message}}
+
+    <div class="ui basic vertical segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide column">
+                <div class="ui icon warning message">
+                    <i class="warning icon"></i>
+                    <div class="content">
+                      <div class="header">
+                        Hallo {{ user.us_nickname }}
+                    </div>
+                    <p>
+                        {{ message }}
+                     </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{else}}
+    
+    <div class="ui basic vertical segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide column">
+                <div class="ui icon message">
+                    <i class="info icon"></i>
+                    <div class="content">
+                      <div class="header">
+                        Willkommen {{ user.us_nickname }}
+                    </div>
+                    <p>
+                        Nutze das help2day CRM um die Standorte zu verwalten und Hilfsanfragen zu verwalten.
+                     </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{/if}}
+
+
+
+    {{#unless user.us_mitarbeiter}}
+    
+    <div class="ui basic vertical segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide column">
+                <div class="ui icon warning message">
+                    <i class="warning icon"></i>
+                    <div class="content">
+                    <p>
+                        Du hast derzeit keine Rolle angenommen. Dadurch ist das CRM nicht nutzbar. Bitte prüfe in deinen Einstellungen, ob eine Rolle zugeordnet ist. Diese bitte annehmen. 
+                     </p>
+                    <p>
+                        Falls das nicht der Fall ist, kontaktiere deine Hilfsorganisation damit dir eine Rolle zugeordnet wird. Stelle sicher, dass die Hilfsorganisation die 
+                        eMail Adresse der Anmeldung auch für die Zuordnung
+                        verwendet.
+                     </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{/unless}}
+
+    
+</div>
+
+
+<div class="ui basic segment">
+</div>
+
+      
+{{> footer}}
+      
+      

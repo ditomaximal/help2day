@@ -1,0 +1,93 @@
+{{> header_crm}}
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+    
+        <div class="nine wide column">
+        
+            <h2 class="ui dividing header">Liste der Empfänger von eMails und SMS</h2>
+            
+            <br />
+        
+      
+            {{#if message}}
+            <div class="ui message">
+                <div class="header">Import</div>
+                <p>{{message}}</p>
+            </div>
+            {{/if}}
+        
+        
+            <table class="ui striped table">
+              <thead>
+                <tr><th>Nickname</th>
+                <th>eMail</th>
+                <th>Mobilnummer</th>
+                <th>Aktion</th>
+              </tr></thead>
+              <tbody>
+              
+                {{#each recipients}}
+              
+                    <tr>
+                      <td>  
+                        {{#if this.us_nickname}} 
+                            <div class="ui basic grey label">{{this.us_nickname}}</div>
+                        {{else}} 
+                          --       
+                        {{/if}}
+                      </td>
+                      <td>{{this.re_email}}</td>
+                      <td>{{this.re_phone}}</td>
+                      
+                      
+                      {{#if ../user.us_admin}}
+                          <td><a class="ui blue label" href="/recipient?re_id={{this.re_id}}">Ändern</a> </td>
+                      {{else}}
+                          <td>--</td>
+                      {{/if}}
+                      
+                      
+                    </tr>
+
+                {{/each}}
+                
+              </tbody>
+              <tfoot>
+                <tr><th colspan="4">
+                  <div class="ui right floated pagination menu">
+                    <a class="icon item" href="/recipients?page={{pagination.previouspage}}">
+                      <i class="left chevron icon"></i>
+                    </a>
+                    
+                    <a class="item">{{pagination.page}}</a>
+                    
+                    <a class="icon item" href="/recipients?page={{pagination.nextpage}}">
+                      <i class="right chevron icon"></i>
+                    </a>
+                  </div>
+                </th>
+              </tr></tfoot>
+            </table>            
+        
+            <a class="ui blue button" href="/recipient/create" type="submit">Empfänger anlegen</a>
+            <a class="ui teal button" href="/recipient/import" type="submit">Empfängerliste importieren</a>
+        
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ui basic segment">
+</div>
+
+
+
+
+      
+{{> footer}}
+      
+      

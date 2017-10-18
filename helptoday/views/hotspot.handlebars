@@ -1,0 +1,264 @@
+ {{> header_crm}}
+
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('.ui.checkbox').checkbox();
+
+        $('#li_image_ref_button').click(function()
+        {
+            $('#li_image_ref').modal('show');
+        });
+        $('#li_marker_reference_button').click(function()
+        {
+            $('#li_marker_reference').modal('show');
+        });
+
+        $('#hotspot_map_button').click(function()
+        {
+            $.get('/hotspot/location?li_id={{hotspot.li_id}}');
+        });
+    });
+</script>
+
+
+
+
+<div class="ui modal" id="li_image_ref">
+    <i class="close icon"></i>
+    <div class="header">Bild für Standort</div>
+    <div class="image content">
+        <div class="ui medium image">
+            <img src="{{image_url}}/{{hotspot.li_image_ref}}_500">
+        </div>
+    </div>
+
+    <div class="content">
+
+        <form class="ui form" method="POST" id="theform" action="/upload/hotspotimage?li_id={{hotspot.li_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+
+            <div class="two fields">
+
+                <div class="field">
+                    <label>Bilddatei</label> <input type="file" accept="image/*" maxlength="2000000" name="li_image_ref" hint="Datei auswählen">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui grey deny button">Zurück</div>
+        <input type="submit" value="Laden" form="theform" class="ui positive button">
+    </div>
+</div>
+
+
+<div class="ui modal" id="li_marker_reference">
+    <i class="close icon"></i>
+    <div class="header">Marker für Standort</div>
+    <div class="image content">
+        <div class="ui medium image">
+            <img src="{{image_url}}/{{hotspot.li_marker_reference}}">
+        </div>
+
+        <div class="description">
+            <form class="ui form" method="POST" id="theform1" action="/upload/hotspotmarker?li_id={{hotspot.li_id}}" accept-charset="UTF-8" enctype="multipart/form-data">
+
+                <div class="field">
+                    <label>Datei</label> <input type="file" accept="image/*" maxlength="2000000" name="li_marker_reference" hint="Datei auswählen">
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <div class="ui grey deny button">Zurück</div>
+        <input type="submit" value="Laden" form="theform1" class="ui positive button">
+    </div>
+</div>
+
+
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="ui twelfe wide centered column">
+            <h1 class="ui centered header">Standort</h1>
+        </div>
+
+        <div class="ui eight wide column">
+            <div class="ui centered link card">
+                <div class="image">
+
+                    {{#if hotspot.li_is_deactivated}}
+                         <a class="ui red ribbon label">Inaktiv</a> 
+                    {{else}} 
+                        <a class="ui teal ribbon label">Aktiv</a> 
+                    {{/if}} 
+                    <img id="li_image_ref_button" src="{{image_url}}/{{hotspot.li_image_ref}}_500">
+                </div>
+                <div class="content">
+                    <div class="description">
+                        <p>{{hotspot.li_comment}}</p>
+                    </div>
+                </div>
+
+                <div class="extra">
+                    <div class="ui label">
+                        <i class="heart icon"></i> {{hotspot.li_agree}}
+                    </div>
+                    <div class="ui label">
+                        <i class="eye icon"></i> {{hotspot.li_view_count}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ui eight wide column">
+
+            <form class="ui form" method="POST" action="/hotspot?li_id={{hotspot.li_id}}">
+
+                <div class="field">
+                    <label>Titel</label> 
+                    <input type="text" name="li_comment" value="{{hotspot.li_comment}}" maxlength="155">
+                </div>
+                <div class="field">
+                    <label>Beschreibung</label>
+<!--                <input type="text" name="li_detail" value="{{hotspot.li_detail}}" maxlength="256"> -->
+                    <textarea name="li_detail" rows="5" maxlength="1020">{{hotspot.li_detail}}</textarea>
+                </div>
+                <div class="field">
+                    <label>Kategorie</label> <input type="text" name="li_category" value="{{hotspot.li_category}}">
+                </div>
+                <div class="field">
+                    <label>Link auf Organisation</label> <input type="text" name="li_promotion" value="{{hotspot.li_promotion}}" maxlength="155">
+                </div>
+                <div class="field">
+                    <label>Link auf Bedarfsliste</label> <input type="text" name="li_special_url" value="{{hotspot.li_special_url}}" maxlength="1020">
+                </div>
+
+                <div class="three fields">
+                    <div class="field">
+                        <label>Längengrad (dezimal)</label> <input type="text" name="li_long" value="{{hotspot.li_long}}">
+                    </div>
+                    <div class="field">
+                        <label>Breitengrad (dezimal)</label> <input type="text" name="li_lat" value="{{hotspot.li_lat}}">
+                    </div>
+                    <div class="field">
+                        <label>Karte</label> <a class="ui button" href="/hotspot/location?li_id={{hotspot.li_id}}"><i class="world icon"></i></a>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Adresse</label> <input type="text" name="li_address" value="{{hotspot.li_address}}" maxlength="1020">
+                </div>
+                <div class="field">
+                    <label>Telefon</label> <input type="text" name="li_phone" value="{{hotspot.li_phone}}" maxlength="60">
+                </div>
+                <div class="field">
+                    <label>Ansprechperson</label> <input type="text" name="li_contact_name" value="{{hotspot.li_contact_name}}" maxlength="60">
+                </div>
+
+
+                <div class="field">
+
+                    {{#if hotspot.li_marker_reference}} 
+                        <label>Marker für Hotspot</label> <img class="ui small bordered image" id="li_marker_reference_button" src="{{image_url}}/{{hotspot.li_marker_reference}}"> 
+                    {{else}} 
+                        <label>Marker für Hotspot (Standard)</label> <img class="ui small bordered image" id="li_marker_reference_button" src="/images/grex_marker_standard.png"> 
+                    {{/if}}
+
+                </div>
+
+                <div class="disabled field">
+                    <label>Link</label> <input type="text" name="li_link" value="{{server_url}}/i/like/{{hotspot.li_id}}">
+                </div>
+
+                <a class="ui grey button" href="/hotspots/#{{hotspot.li_id}}">Zurück</a>
+                <button class="ui blue button" type="submit">Speichern</button>
+                <a class="ui orange button" href="/hotspot/create?li_copy_id={{hotspot.li_id}}">Duplizieren</a> 
+                
+                <div class="ui hidden divider"></div>
+                
+                {{#if hotspot.li_is_deactivated}}
+                    <a class="ui teal button" href="/hotspot/action?li_id={{hotspot.li_id}}&action=start">Aktivieren</a> 
+                    <a class="ui disabled red button" href="/hotspot/action?li_id={{hotspot.li_id}}&action=stop">Deaktivieren</a>
+                {{else}} 
+                    <a class="ui disabled teal button" href="/hotspot/action?li_id={{hotspot.li_id}}&action=start">Aktivieren</a> 
+                    <a class="ui red button" href="/hotspot/action?li_id={{hotspot.li_id}}&action=stop">Deaktivieren</a>
+                {{/if}} 
+                
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui basic vertical segment">
+
+
+    <div class="ui basic center aligned segment">
+
+        <div class="ui horizontal divider"></div>
+
+        <h1 class="ui header">
+            <div class="content">Hilfsanfrage auf diesem Standort anlegen</div>
+        </h1>
+
+        <a href="/promotion/create?li_id={{hotspot.li_id}}" class="ui medium circular icon button"> <i class="blue icon plus"></i>
+        </a>
+
+    </div>
+</div>
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered grid container">
+            
+        <div class="ui nine wide centered column">
+            <h1 class="ui centered header">Anfragen auf dem Standort</h1>
+        </div>
+
+        <div class="ui eleven wide centered column">
+            <div class="ui three stackable link cards">        
+
+            {{#each hotspot.promotions}}
+
+            <div id="{{this.pr_id}}" class="card">
+                <a class="ui image" href="/promotion?pr_id={{this.pr_id}}"> {{#if this.pr_instance_id}}
+                    <div class="ui teal ribbon label">Aktiv</div> {{else}}
+                    <div class="ui red ribbon label">Inaktiv</div> {{/if}} <img src="{{image_url}}/{{this.pr_gift_image_reference}}_500">
+
+                </a>
+                <div class="content">
+                    <div class="meta">
+                        <p>{{this.pr_gift_comment}}</p>
+                    </div>
+                </div>
+
+                <div class="extra">
+                    <div class="ui label">
+                        <i class="star icon"></i> {{this.pr_gift_count}}
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui basic vertical segment">
+</div>
+
+{{> footer}}
+

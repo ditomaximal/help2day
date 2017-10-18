@@ -1,0 +1,146 @@
+
+<script>
+    $(document).ready(function()
+    {
+        {{#if message}}
+        $('#message_modal').modal({}).modal('show');
+        {{/if}}
+    });
+    
+</script>
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+<div class="pusher"">
+
+    {{> vertical_banner}}
+    
+    <div class="ui basic vertical segment" >
+        <div class="ui one column centered stackable grid container">
+            <div class="ten wide column">
+                <h1 class="ui header" style="text-align: center; font-weight:300;">
+                    gemeinsam helfen<br />zur richtigen Zeit<br />am richtigen Ort
+                </h1>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui basic vertical segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+                    <a class="ui large blue button" href="/hilfsanfragen">Wo kann ich helfen?</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui basic segment">    </div>
+
+    <div class="ui basic secondary vertical segment" style="padding:100px 50px;">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+
+                <h2>Was ist help2day.org?</h2>
+                
+                    <p style="font-size: 1.1em;">
+                    Auf help2day.org siehst du aktuelle und konkrete Hilfsanfragen von verschiedenen Hilfsorganisationen. 
+                    Damit erleichtern wir es dir, zur richtigen Zeit am richtigen Ort zu helfen. 
+                    </p>
+            
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="ui basic vertical segment" style="padding:100px 50px;">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+
+                <h2>Wieso eine Hilfeleistung bestätigen?</h2>
+                
+                    <p style="font-size: 1.1em;">
+                    Durch deine Bestätigung einer Hilfeleistung können wir den Hilfsorganisationen einen Extraservice bieten.
+                    Du kannst Hilfsanfragen bestätigen schon bevor die Hilfeleistung erbracht wird.
+                    Damit wird für die Hilfsorganisation sichtbar, wieviele Helfer auf die Anfrage reagieren. 
+                    Die Hilfsorganisation kann damit besser planen und effizienter helfen. 
+                    </p>
+            
+            </div>
+            
+            <div class="nine wide center aligned column">
+                    <a class="ui teal button" href="/login">Registrieren/Login</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ui basic secondary vertical segment" style="padding:100px 50px;">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+
+                <h2>Interesse?</h2>
+
+                    <p style="font-size: 1.1em;">
+                    Wir suchen nach Hilfsorganisationen mit aktuellem Bedarf an Sachspenden und einfachen Hilfeleistungen.
+                    Melde dich bei uns unter   
+                    <a href="mailto:office@help2day.org?subject=Hilfsorganisation" >office@help2day.org</a>
+                    . Es ist sehr einfach bei help2day.org mitzumachen.
+                                
+                    </p>
+            
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="ui basic vertical segment" style="padding:100px 50px;">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+
+                <h2>Kooperationspartner</h2>
+
+                    <h3 class="ui icon header">
+                        <img class="ui icon image" style="width: 200px;" src="/images/respektnet.png">                
+                    </h3>
+                    
+            
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="ui basic secondary vertical segment" style="padding:100px 50px;">
+        <div class="ui one column centered stackable grid container">
+            <div class="nine wide center aligned column">
+
+                <h2>Sponsoren</h2>
+
+                    <h3 class="ui icon header">
+                        <img class="ui icon image" style="width: 200px;" src="/images/axians.gif">                
+                        Hosting
+                    </h3>
+                    
+            
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    
+    
+</div>
+
+    
+{{> footer}}
+

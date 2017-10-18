@@ -1,0 +1,140 @@
+
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+
+
+<div class="pusher">
+
+    {{> vertical_banner}}
+    
+    <div class="ui one column centered stackable grid container">
+    
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <div class="ui steps">
+                  <div class="active step">
+                    <i class="write icon"></i>
+                    <div class="content">
+                      <div class="title">Registrieren</div>
+                      <div class="description">Registriere dich auf help2day</div>
+                    </div>
+                  </div>
+                  <div class="disabled step">
+                    <i class="search icon"></i>
+                    <div class="content">
+                      <div class="title">Hilfsanfragen suchen</div>
+                      <div class="description">Suche nach Hilfsanfragen und bestätige sie.</div>
+                    </div>
+                  </div>
+                  <div class="disabled step">
+                    <i class="info icon"></i>
+                    <div class="content">
+                      <div class="title">Rückmeldung</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>    
+        
+        <div class="ui basic segment">    </div>
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <h1 class="ui header" style="text-align: center; font-weight:300;">
+                    1. Schritt: Registrieren
+                </h1>
+            </div>    
+        </div>    
+        <div class="ui basic segment">    </div>
+        
+        
+        <div class="ui row">
+            <div class="ui basic segment">    </div>
+            <div class="eleven wide column">
+        
+                <h2 class="ui dividing header">Was ist das Ziel dieses Schrittes?</h2>
+        
+                    <p>
+                        Mit diesem Schritt wollen wir testen, ob es bei der Registrierung und Anmeldung noch Probleme gibt, die wir noch nicht behoben haben.
+                        
+                    </p>
+        
+                <h2 class="ui dividing header">Wo starte ich die Registrierung?</h2>
+        
+                    <p>
+                        Die Web App funktioniert auf jedem aktuellen Browser und kann unter der Internetadresse 
+                        <a href="https://help2day.org">https://help2day.org</a> erreicht werden.
+                    </p>
+                    
+        
+                <h2 class="ui dividing header">Wie geht's?</h2>
+        
+                    <div class="ui ordered list">
+                        <div class="item">Gehe auf die Startseite von help2day unter <a href="https://help2day.org">https://help2day.org</a>.</div>
+                        <div class="item">Gehe von der Startseite auf die Loginseite indem du den Knopf <b>Login oder Registrieren</b> drückst.</div>
+                        <div class="item">Gehe dann zum Registrierungsformular indem du den Knopf <b>Registrieren mit eMail</b> drückst.</div>
+                        <div class="item">Folge dann den Anweisungen für die Registrierung. Wenn du fertig bist, logge dich mit deiner eMail und dem Password ein.</div>
+                        <div class="item">
+                            Wenn dir die Registrierung gelungen ist und das Einloggen funktioniert hat, 
+                            schreibe uns bitte eine eMail an <a href="mailto:office@grex-app.com">office@grex-app.com</a>.
+                        </div>
+                    </div>
+        
+                <h2 class="ui dividing header">Wichtige Hinweise</h2>
+                
+                    <p>
+                        Wenn die Bestätigungsemail nicht ankommt, bitte prüfe zuerst, ob die eMail vielleicht im Ordner für unerwünschte Werbung (Spam) liegt, und
+                        falls das nicht der Fall ist, prüfe bitte die Schreibweise der eMail beim Registrierungsformular.
+                    </p>
+                
+                    <p>
+                        Wenn die Registrierung nicht funktioniert, versuche bitte nicht zu lange das Problem zu lösen. Dann liegt der Fehler wahrscheinlich
+                        bei uns. Das sind genau die Probleme, die wir suchen :-). Schreibe uns eine eMail an <a href="mailto:office@grex-app.com">office@grex-app.com</a>.
+                        Wir melden uns dann und versuchen das Problem zu finden. 
+                    </p>
+
+                <h2 class="ui dividing header">Danke</h2>
+                    <p>
+                        Wir bedanken uns sehr herzlich, dass du uns beim Testen unterstützt. Damit schaffen wir gemeinsam einen Baustein für eine
+                        bessere Welt!
+                    </p>
+            </div>    
+        </div>    
+
+
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                <form class="ui form" action="/tutorial" method="get">
+                  <input name="id" type="hidden" value="2"></input>
+                  <button class="ui blue button" type="submit">Nächster Schritt</button>
+                </form>
+            </div>    
+        </div>
+        
+        
+    </div>
+    
+    <div class="ui basic segment">
+    </div>
+  
+</div>
+
+{{> footer}}

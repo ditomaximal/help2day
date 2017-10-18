@@ -1,0 +1,49 @@
+{{> header_crm}}
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+});
+</script>
+
+
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="">
+            
+                <h2 class="ui dividing header">Social Impact Graph Session</h2>
+            
+                <div class="disabled field">
+                    <label>Schlüssel</label> <input type="text" name="ks_key" value="{{session.ks_key}}">
+                </div>
+                
+                {{#if session.ks_animation}}
+                    <a class="ui disabled green button" href="">Animation Start</a>
+                {{else}}
+                    <a class="ui green button" href="/sig/animation/start?ks_key={{session.ks_key}}">Animation Start</a>
+                {{/if}}  
+                
+                {{#unless session.ks_animation}}
+                    <a class="ui disabled red button" href="/sig/animation/stop?ks_key={{session.ks_key}}">Animation Stop</a>
+                {{else}}
+                    <a class="ui red button" href="/sig/animation/stop?ks_key={{session.ks_key}}">Animation Stop</a>
+                {{/unless}}  
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="ui basic segment">
+</div>
+
+
+      
+{{> footer}}
+      
+      

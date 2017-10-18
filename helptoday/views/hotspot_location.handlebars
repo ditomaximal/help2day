@@ -1,0 +1,97 @@
+
+{{> header_crm}}
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}"></script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    var longitude={{hotspot.li_long}};
+    var latitude={{hotspot.li_lat}};
+
+    document.getElementById("li_id_input").value = "{{hotspot.li_id}}";
+
+    var latLng = new google.maps.LatLng({{hotspot.li_lat}}, {{hotspot.li_long}});
+    var mapOptions = 
+    {
+      center: latLng,
+      zoom: 17,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    
+    var marker = new google.maps.Marker(
+    {
+        position: latLng,
+        title: 'Standort',
+        map: map,
+        draggable: true
+    });
+    
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+        console.log('clicking...'+ marker.getPosition() );
+        
+        marker.setPosition(event.latLng);
+        map.setCenter(event.latLng);
+        
+        longitude= marker.getPosition().lng();
+        latitude= marker.getPosition().lat();
+        document.getElementById("li_long_input").value = longitude;
+        document.getElementById("li_lat_input").value = latitude;
+    });
+    
+    google.maps.event.addListener(marker, 'drag', function() 
+    {
+        console.log('dragging...'+ marker.getPosition() );
+        
+        longitude= marker.getPosition().lng();
+        latitude= marker.getPosition().lat();
+        document.getElementById("li_long_input").value = longitude;
+        document.getElementById("li_lat_input").value = latitude;
+        
+    }); 
+});
+    
+</script>
+
+
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="ui ten wide centered column">
+            <h1 class="ui centered header">Standort</h1>
+            <p>{{hotspot.li_comment}}</p>
+        </div>
+    </div>
+</div>
+        
+        
+        
+<div class="ui basic vertical segment" >
+    <div class="ui one column centered stackable grid container">
+        <div id="map_canvas" class="ui ten wide centered column" style="height:300px">
+        </div>
+    </div>
+</div>
+    
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="ui ten wide centered column">
+            
+                <form name="" action="/hotspot/setlocation">
+                    <input type="hidden" id="li_id_input" name="li_id" value="">
+                    <input type="hidden" id="li_long_input" name="li_long" value="">
+                    <input type="hidden" id="li_lat_input" name="li_lat" value="">
+                    <button id="hotspot_map_submit_button" class="ui blue button" type="submit">Speichern</button>
+                    <a class="ui grey button" href="/hotspot?li_id={{hotspot.li_id}}">Zurück</a>
+               </form>
+            
+        </div>
+    </div>
+</div>
+      
+<div class="ui basic segment">
+</div>
+      
+      
+{{> footer}}

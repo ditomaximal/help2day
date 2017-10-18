@@ -1,0 +1,710 @@
+{{> header_webapp}}
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('.ui.checkbox').checkbox();
+    
+    {{#if user.us_allow_email_notification}}
+        $('#us_allow_email_notification').checkbox('set checked');
+    {{else}}
+        $('#us_allow_email_notification').checkbox('set unchecked');
+    {{/if}}
+    
+    {{#if user.us_allow_sms_notification}}
+        $('#us_allow_sms_notification').checkbox('set checked');
+    {{else}}
+        $('#us_allow_sms_notification').checkbox('set unchecked');
+    {{/if}}
+
+    
+    $('.ui.accordion').accordion({
+        onOpen: function() {
+            console.log('open ' + this.id);
+            $('#setting'+this.id).css('border-radius', '0.5em 0.5em 0em 0em');
+        },
+        onClose: function() {
+            console.log('close ' + this.id);
+            $('#setting'+this.id).css('border-radius','0.5em 0.5em 0.5em 0.5em'); 
+        },
+        onChange: function () {
+            
+            console.log(this.id);
+            var input= $('#open_form');
+            if ( input ) {
+                input.val( parseInt ( this.id )  );   
+            }
+        },
+    });
+    
+    $('.ui.accordion').accordion('open', parseInt({{open}}) );
+    
+    {{#each profile}}
+    $('#cbox'+{{this.cavn_category_value_id}}).checkbox('set checked');
+    {{/each}}
+    
+    
+    var x = $('#locationstatus');
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
+    }
+
+    
+    
+    
+    
+    
+    function dataURItoBlob(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: 'image/jpeg' });
+    }
+
+    Dropzone.autoDiscover = false;
+    var imageDropzone = new Dropzone(
+        "#image-dropzone",
+        {
+          autoProcessQueue: false,
+          paramName: 'us_image_ref',
+          maxFilesize: 3, // MB
+          maxFiles: 1,
+          dictDefaultMessage: 'Ziehe ein Bild hierher oder klicke <a>HIER</a> um ein Avatarbild zu laden.',
+          addedfile: function(file) { console.log(file); },
+          acceptedFiles: 'image/*',
+          accept: function(file, done) {
+              if (file.size == 0) {
+                done("Leere Files sind nicht erlaubt.");
+              }
+              else { done(); }
+            }
+        }
+    );
+
+    imageDropzone.on('success', function( file, resp ){
+              
+          console.log( file );
+          console.log( resp );
+          
+          window.location.reload();
+    });
+    imageDropzone.on('error', function( file, resp ){
+
+        $('#error_modal')        .modal('show')        ;
+        
+        this.removeFile(file);
+        console.log( file );
+        console.log( resp );
+        
+        window.location.reload();
+    });
+    imageDropzone.on('canceled', function( file, resp ){
+
+        this.removeFile(file);
+        console.log( file );
+        console.log( resp );
+        
+        window.location.reload();
+    });
+
+
+    imageDropzone.on('thumbnail', function(file) {
+    
+        if (file.cropped) {
+            return;
+        }
+        
+        var cachedFilename = file.name;
+        imageDropzone.removeFile(file);
+        var $cropperModal = $('#us_image_ref_modal');
+        
+        console.log( $cropperModal );
+        
+        var $uploadCrop = $cropperModal.find('#crop-upload');
+        var reader = new FileReader();
+        
+        reader.onloadend = function () {
+        
+            console.log( 'reader' );
+            
+            $img= $cropperModal.find('#image-container');
+            $img.attr('src', reader.result);
+            $img.cropper({
+                aspectRatio: 1 / 1,
+                autoCropArea: 1,
+                movable: false,
+                cropBoxResizable: true
+            });
+        };
+        reader.readAsDataURL(file);
+    
+        $cropperModal.modal('show');
+    
+        $uploadCrop.on('click', function() {
+            // get cropped image data
+            var blob = $img.cropper('getCroppedCanvas').toDataURL();
+            var newFile = dataURItoBlob(blob);
+            newFile.cropped = true;
+            newFile.name = cachedFilename;
+    
+            imageDropzone.addFile(newFile);
+            imageDropzone.processQueue();
+            
+            $cropperModal.modal('hide');
+        });     
+    });
+    
+    
+});
+</script>
+
+<div class="ui modal" id="us_image_ref_modal">
+    <div class="image content">
+        <div class="ui medium image">
+            <img id="image-container">
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui basic grey deny button">Zurück</div>
+        <div id="crop-upload" class="ui basic blue deny button">Speichern</div>
+    </div>
+</div>
+
+
+<div class="ui modal" id="error_modal">
+    <div class="header">Header</div>
+        <div class="content">
+            <p>Das Bild war zu groß oder leer. Es konnte nicht geladen werden.</p>
+        </div>
+        <div class="actions">
+            <div class="ui basic grey deny button">Zurück</div>
+        </div>
+    </div>
+</div>
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+    
+    <div class="ui one column centered stackable grid container">
+
+
+        <div class="six wide column">
+            <div class="ui basic center aligned segment">
+            
+                <form class="ui aligned form dropzone" method="POST" id="image-dropzone" action="/settings/profileimage" accept-charset="UTF-8" enctype="multipart/form-data">
+         
+                    <div style="margin: auto 0;">
+                        <div style="position:relative; display:inline-block;">
+                            <img id="profileimage" style="background-color: #111; border-radius: 50%; max-width: 100%; width: 150px; height:150px;" src="/image/{{user.us_image_ref}}_100">
+                        </div>
+                    </div>
+                    
+                    <div class="fallback">
+                        <h1 class="ui header">
+                            <img class="ui small centered circular image" src="/image/{{user.us_image_ref}}">
+                        </h1>
+                        <input type="file" accept="image/*" maxlength="2000000" name="us_image_ref" hint="Datei auswählen">
+                        <button class="ui basic blue button" type="submit">Hochladen</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+        </div>
+
+<!--         <div class="eleven wide column"> -->
+<!--             <div class="ui basic center aligned segment"> -->
+<!--                 <form class="ui aligned form" method="POST" id="theform1" action="/settings/profileimage" accept-charset="UTF-8" enctype="multipart/form-data"> -->
+         
+<!--                     <h1 class="ui header"> -->
+<!--                         <img class="ui small centered circular image" src="/image/{{user.us_image_ref}}"> -->
+<!--                     </h1> -->
+                    
+<!--                     <div class="field"> -->
+<!--                         <input type="file" accept="image/*" maxlength="2000000" name="us_image_ref" hint="Datei auswählen"> -->
+<!--                     </div> -->
+         
+<!--                     <button class="ui basic blue button" type="submit">Hochladen</button> -->
+<!--                 </form> -->
+<!--             </div> -->
+<!--         </div> -->
+
+        <div class="eleven wide column">
+        
+            <form class="ui form" method="POST" action="/settings">
+            
+                <div class="ui accordion" >
+                  
+                    <div id="setting1" class="profile-title-box title">
+        
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-address-card-o fa-fw"></i>
+                        Über mich
+        
+                    </div>
+                    
+                    <div id="1" class="content profile-content-box content">
+                    
+                        <div class="field">
+                            <label>Nickname</label> <input type="text" name="us_nickname" value="{{user.us_nickname}}">
+                        </div>
+                        
+                        <div class="field">
+                            <label>Warum helfe ich?</label> 
+                            <textarea name="us_about_me" rows="3" maxlength="1024">{{user.us_about_me}}</textarea>
+                            <div class="ui pointing label">Diese Information ist öffentlich sichtbar. 1024 Zeichen.</div>
+                        </div>
+                        
+                        <div class="disabled field">
+                            <label>eMail</label> 
+                            <input type="email" name="us_email" value="{{user.us_email}}">
+                        </div>
+                        <div class="field">
+                        </div>
+                        
+                        <div class="field">
+                            <label>Mobiltelefon</label> 
+                            <input type="text" name="us_phone" value="{{user.us_phone}}">
+                            <div class="ui pointing label">Format: +436644566...</div>
+                        </div>
+                    </div>
+
+                    <div id="setting2" class="profile-title-box title">
+        
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-envelope-open-o fa-fw"></i>
+                        Berechtigungen für Nachrichten
+        
+                    </div>
+                    
+                    <div id="2" class="content profile-content-box content">
+
+                        <div class="field">
+                            <label>eMail</label> 
+                            <div class="ui checkbox" id="us_allow_email_notification">
+                                <input type="checkbox" tabindex="0" class="hidden"  name="us_allow_email_notification">
+                                <label for="us_allow_email_notification">Benachrichtigungen an eMail Adresse zulassen</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>SMS</label> 
+                            <div class="ui checkbox" id="us_allow_sms_notification">
+                                <input type="checkbox" tabindex="0" class="hidden" name="us_allow_sms_notification">
+                                  <label>Benachrichtigungen per SMS an Telefonnummer zulassen</label>
+                            </div>
+                        </div>
+                    </div>
+        
+
+                    <div id="setting9" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-language fa-fw"></i>
+                        Welche Sprache kann ich sprechen?
+                    
+                    </div>
+                    
+                    <div id="9" class="content profile-content-box content">
+
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox31">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox31" >
+                                <label id="label31">Deutsch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox32">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox32" >
+                                <label id="label32">Englisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox33">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox32" >
+                                <label id="label33">Polnisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox34">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox34" >
+                                <label id="label34">Slovakisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox35">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox35" >
+                                <label id="label35">Slovenisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox36">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox36" >
+                                <label id="label36">Ungarisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox37">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox37" >
+                                <label id="label37">Türkisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox38">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox38" >
+                                <label id="label38">Arabisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox39">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox39" >
+                                <label id="label39">Farsi</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox40">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox40" >
+                                <label id="label40">Rumänisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox41">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox41" >
+                                <label id="label41">Serbisch</label>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox42">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox42" >
+                                <label id="label42">Kroatisch</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="setting3" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-heart-o fa-fw"></i>
+                        Wie kann ich helfen?
+                    
+                    </div>
+                    
+                    <div id="3" class="content profile-content-box content">
+
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox1">
+                                <input type="checkbox" tabindex="0" class="hidden" name="cbox1" >
+                                <label id="label1">Sachspenden</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                        
+                            <div class="ui checkbox" id="cbox2">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox2" >
+                              <label id="label2">Zeitspenden</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox3">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox3" >
+                              <label id="label3">Zeitspenden für registrierte Helfer</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="setting4" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-users fa-fw"></i>
+                        Wem will ich helfen?
+                    </div>
+                    
+                    <div id="4" class="content profile-content-box content">
+
+                        <div class="inline field">
+                            <div class="ui checkbox" id="cbox4">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox4" >
+                              <label id="label4">Obdachlose</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox"  id="cbox5">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox5">
+                              <label id="label5">Kinder</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox6">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox6" >
+                              <label id="label6">Familien</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox7">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox7" >
+                              <label id="label7">Flüchtlinge</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox8">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox8" >
+                              <label id="label8">Pflegebedürftige</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox9">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox9" >
+                              <label id="label9">Alte Menschen</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="setting5" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-handshake-o fa-fw"></i>
+                        Was will ich tun?
+                    </div>
+                    
+                    <div id="5" class="content profile-content-box content">
+
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox10">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox10" >
+                              <label id="label10">Erledigen</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox11">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox11" >
+                              <label id="label11">Begleiten</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox12">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox12" >
+                              <label id="label12">Versorgen</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox13">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox13" >
+                              <label id="label13">Tiere versorgen</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox14">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox14" >
+                              <label id="label14">Dolmetschen</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox15">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox15" >
+                              <label id="label15">Lernhilfe</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+
+                    <div id="setting6" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-shopping-bag fa-fw"></i>
+                        Was will ich spenden?
+                    </div>
+                    
+                    <div id="6" class="content profile-content-box content">
+
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox16">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox16" >
+                              <label id="label16">Kleidung</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox17">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox17" >
+                              <label id="label17">Spielsachen</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox18">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox18" >
+                              <label id="label18">Haushaltsausstattung</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox19">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox19" >
+                              <label id="label19">Freizeit/Sportgeräte</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox20">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox20" >
+                              <label id="label20">Lebensmittel</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox21">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox21" >
+                              <label id="label21">Technische Geräte</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox22">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox22" >
+                              <label id="label22">Tiernahrung</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+
+
+
+                    <div id="setting7" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-map-marker fa-fw"></i>
+                        Wo kann ich helfen?
+                    </div>
+                    
+                    <div id="7" class="content profile-content-box content">
+
+                        <div class="four fields">
+                            <div class="field">         
+                              <label>Karte</label>
+                                <a class="ui button" href="/settings/location">
+                                  Standort wählen
+                                </a>
+                            </div>
+                            <div class="field">         
+                              <label>Längengrad</label>
+                              <input disabled type="text" name="us_long" value="{{user.us_long}}" >
+                            </div>
+                            <div class="field">         
+                              <label>Breitengrad</label>
+                              <input disabled type="text" name="us_lat" value="{{user.us_lat}}" >
+                            </div>
+                            <div class="field">         
+                              <label>Umkreis (km)</label>
+                              <input disabled type="text" name="us_lat" value="{{user.us_radius_km}}" >
+                            </div>
+                        </div>
+                        
+                        <div class="ui basic segment"></div>
+                    </div>
+
+
+
+
+                    <div id="setting8" class="profile-title-box title">
+                    
+                        <i class="dropdown icon triggericon"></i>
+                        <i class="fa fa-calendar-check-o fa-fw"></i>
+                        Wann kann ich helfen?
+                    </div>
+
+                    
+                    <div id="8" class="content profile-content-box content">
+
+                        <div class="five fields">         
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox23">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox23" >
+                                  <label id="label23">Morgen</label>
+                                </div>
+                            </div>
+    
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox24">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox24" >
+                                  <label id="label24">Mittag</label>
+                                </div>
+                            </div>
+    
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox25">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox25" >
+                                  <label id="label25">Nachmittag</label>
+                                </div>
+                            </div>
+    
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox26">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox26" >
+                                  <label id="label26">Abend</label>
+                                </div>
+                            </div>
+    
+                            <div class="inline field">         
+                                <div class="ui checkbox" id="cbox27">
+                                  <input type="checkbox" tabindex="0" class="hidden" name="cbox27" >
+                                  <label id="label27">Nacht</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ui basic segment"></div>
+                        
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox30">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox30" >
+                              <label id="label30">Werktags</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox28">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox28" >
+                              <label id="label28">Samstag/Sonntag</label>
+                            </div>
+                        </div>
+                        <div class="inline field">         
+                            <div class="ui checkbox" id="cbox29">
+                              <input type="checkbox" tabindex="0" class="hidden" name="cbox29" >
+                              <label id="label29">Feiertage</label>
+                            </div>
+                        </div>
+                        
+                        <div class="ui basic segment"></div>
+                        
+                    </div>
+
+
+                </div>
+                
+                <input id="open_form" type="hidden" name="open" value="{{open}}">
+                <div class="ui basic segment">    </div>
+                <button class="ui basic blue button" type="submit">Speichern</button>
+                <a class="ui basic grey button" href="/">Zurück</a>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> footer}}      

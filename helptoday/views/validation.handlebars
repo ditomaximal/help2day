@@ -1,0 +1,57 @@
+
+{{> header_crm}}
+
+
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+});
+</script>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/customer/validation">
+            
+                <h2 class="ui dividing header">Validierungsschritt für NGO</h2>
+            
+                <div class="field">
+                    <label>NGO</label> <input disabled type="text" name="cu_full_name" value="{{customer.cu_full_name}}">
+                </div>
+                
+                <div class="field">
+                    <label>Wer bestätigt</label> <input disabled type="text" name="us_nickname" value="{{user.us_nickname}}">
+                </div>
+                
+                <div class="field">
+                    <label>Schritt</label> <input disabled type="text" name="x" value="{{code}}">
+                </div>
+                
+                <div class="field">
+                    <label>Kommentar</label> <input type="text" name="cv_comment" hint="Bitte hier beschreiben, was die Grundlage der Bestätigung ist." value="">
+                </div>
+                
+                
+                <input type="hidden" name="cv_customer_id" value="{{customer.cu_id}}">
+                <input type="hidden" name="cv_code" value="{{code}}">
+                <button class="ui blue button" type="submit">Bestätigen</button>
+                <a class="ui grey button" href="/settings/customer?cu_id={{customer.cu_id}}">Zurück</a>
+                
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="ui basic segment">
+</div>
+
+      
+{{> footer}}
+      
+      

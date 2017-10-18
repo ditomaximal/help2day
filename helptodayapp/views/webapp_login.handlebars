@@ -1,0 +1,133 @@
+
+<script>
+    $(document).ready(function()
+    {
+        $('.ui.form').form(
+        {
+            fields :
+            {
+                email :
+                {
+                    identifier : 'email',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Please enter your e-mail'
+                    },
+                    {
+                        type : 'email',
+                        prompt : 'Please enter a valid e-mail'
+                    } ]
+                },
+                password :
+                {
+                    identifier : 'password',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Please enter your password'
+                    },
+                    {
+                        type : 'length[4]',
+                        prompt : 'Your password must be at least 4 characters'
+                    } ]
+                }
+            }
+        });
+        
+        {{#if message}}
+        $('#message_modal').modal({}).modal('show');
+        {{/if}}
+        
+    });
+</script>
+
+
+
+
+
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+<div class="pusher">
+
+    {{> vertical_banner}}
+
+    <div class="ui basic vertical segment">
+    
+        <div class="ui one column centered stackable grid container">
+    
+            <div class="eight wide column">
+    
+                <form action="/login" method="POST" class="ui form">
+    
+                    <div class="ui basic segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i> <input type="email" name="email" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i> <input type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <button class="ui basic blue submit button">Login</button>
+                        
+                        <a href="/forgot">Password vergessen?</a>
+                        
+                    </div>
+                </form>
+            </div>
+    
+    
+            <div class="ui horizontal divider">Oder</div>
+    
+    
+            <div class="nine wide center aligned column">
+            
+                <form action="/signup" method="GET" class="ui form">
+                    <button class="ui basic blue submit button">Registrieren mit eMail</button>
+                </form>
+            
+            </div>
+    
+    
+            <div class="ui horizontal divider">Oder auch</div>
+    
+            <div class="nine wide center aligned column">
+            
+                <form action="/auth/facebook" method="GET" class="ui form">
+                    <button class="ui basic blue submit button"><i class="facebook icon"></i>Login mit Facebook</button>
+                </form>
+            </div>
+    
+        </div>
+    </div>
+
+</div>
+
+<div class="ui basic segment">    </div>
+    
+{{> footer}}
+

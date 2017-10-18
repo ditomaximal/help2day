@@ -1,0 +1,141 @@
+
+<script>
+    $(document).ready(function()
+    {
+        {{#if message}}
+        $('#message_modal').modal({}).modal('show');
+        {{/if}}
+
+        $('.ui.form').form(
+        {
+            fields :
+            {
+                email :
+                {
+                    identifier : 'email',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Bitte gebe eine eMail Adresse an'
+                    },
+                    {
+                        type : 'email',
+                        prompt : 'Bitte gebe eine gültige eMail Adresse an'
+                    } ]
+                },
+                password :
+                {
+                    identifier : 'password',
+                    rules :
+                    [
+                    {
+                        type : 'empty',
+                        prompt : 'Bitte gebe ein Passwort ein'
+                    },
+                    {
+                        type : 'length[4]',
+                        prompt : 'Das Passwort muss mindestens 4 Zeichen lang sein.'
+                    } ]
+                },
+                dataprotection : {
+                    identifier: 'dataprotection',
+                    rules: [
+                      {
+                        type   : 'checked',
+                        prompt : 'Bitte stimme den Nutzungsbedingungen zu'
+                      }
+                    ]
+                }
+            }
+        });
+        
+        $('.ui.checkbox').checkbox();
+        
+        
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+    <i class="important icon"></i>
+    <div class="header">{{message}}</div>
+    <div class="actions">
+        <div class="ui basic inverted deny button">OK</div>
+    </div>
+</div>
+{{/if}}
+
+
+<div class="pusher"">
+
+    {{> vertical_banner}}
+
+    <div class="ui basic vertical segment"></div>
+
+    <div class="ui basic segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="eight wide column">
+
+                <form action="/signup" method="POST" class="ui form">
+                    <div class="ui attached message">
+                        <div class="header">Hallo,</div>
+                        <p>Gebe bitte hier deinen gewünschten Usernamen, die eMail Adresse und ein Password für die Registrierung an. Du bekommst dann eine eMail zur Bestätigung zugesendet.</p>
+                    </div>
+
+                    <div class="ui attached segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i> <input type="text" name="us_nickname" placeholder="nickname">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="mail icon"></i> <input type="email" name="email" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i> <input type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+
+
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" tabindex="0" name="dataprotection" class="hidden"> <label>Ich stimme den <a href="/dataprotection">Nutzungsbedingungen</a> zu</label>
+                            </div>
+                        </div>
+
+
+                        <button class="ui blue submit button">Registrieren</button>
+                        
+                        <div class="ui error message"></div>
+                    </div>
+
+
+
+
+
+
+                </form>
+            </div>
+
+            <div class="ui horizontal divider">Oder</div>
+
+            <div class="ui centered basic vertical segment">
+                <p>
+                    <a href="/login">Login mit bestehenden Anmeldedaten?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui basic segment"></div>
+
+{{> footer}}
+
+

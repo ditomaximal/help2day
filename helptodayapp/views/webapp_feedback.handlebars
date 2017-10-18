@@ -1,0 +1,35 @@
+
+{{> header_webapp}}
+
+<script>
+    $(document).ready(function()
+    {
+    });
+</script>
+
+
+{{#if message}}
+<div id="message_modal" class="ui basic modal">
+  <i class="important icon"></i>
+  <div class="header">
+    {{message}}
+  </div>
+  <div class="actions">
+    <div class="ui basic inverted deny button">OK</div>
+  </div>
+</div>
+{{/if}}
+
+<div class="pusher">
+    {{> vertical_banner}}
+    <div class="ui one column centered stackable grid container">
+        <div class="ui row">
+            <div class="eleven wide center aligned column">
+                {{> feedback}}        
+            </div>    
+        </div>    
+    </div>
+    <div class="ui basic segment">
+    </div>
+</div>
+{{> footer}}

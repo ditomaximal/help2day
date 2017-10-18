@@ -1,0 +1,102 @@
+{{> header_crm}}
+
+<script type="text/javascript">
+</script>
+
+<div class="ui basic vertical segment">
+    <div class="ui one column centered stackable grid container">
+        <div class="ui twelfe wide centered column">
+            <h1 class="ui centered header">Gestartete Hilfsanfrage</h1>
+        </div>
+        
+        
+        <div class="ui row">
+            <div class="ui fourteen wide centered column">
+                <div class="ui center aligned basic segment">
+                
+                    <table class="ui very basic table">
+                      <tbody>
+                        <tr>
+                          <td class="four wide">Anfrage</td>
+                          <td class="nine wide">{{promotion_instance.pi_gift_comment}}</td>
+                        </tr>
+                        <tr>
+                          <td class="four wide">Helferversprechen</td>
+                          <td class="nine wide">{{promotion_instance.pi_user_comment}}</td>
+                        </tr>
+                        <tr>
+                          <td>Startzeit</td>
+                          <td>{{promotion_instance.pi_start_time_string}}</td>
+                        </tr>
+                        <tr>
+                          <td>Stoppzeit</td>
+                          <td>{{promotion_instance.pi_end_time_string}}</td>
+                        </tr>
+                    </tbody></table>
+                </div>                    
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui basic segment"></div>
+    
+    <div class="ui one column centered stackable grid container">
+        <div class="ui twelfe wide centered column">
+                <h1 class="ui centered header">Zusagen durch Helfer</h1>
+        </div>
+    
+        <div class="ui twelve wide column">
+    
+            <table class="ui very basic table">      
+            
+                <thead>
+                  <tr>
+                     <th>Helfer</th>
+                     <th>Bestätigung</th>
+                     <th>Anzahl</th>
+                  </tr>
+                </thead>
+              
+                <tbody>
+                
+                    {{#each gifts}}
+                            <tr>
+                                <td>
+                                    <p>
+                                        {{this.gi_user_nick}}
+                                    </p>
+                                </td>
+                                
+                                <td>
+                                    {{this.gi_redeem_time_string}}
+                                </td>
+                                <td>
+                                    {{this.gi_count}}
+                                </td>
+                            </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+    
+        </div>
+    
+    </div>
+    
+    <div class="ui basic segment"></div>
+    
+    
+    
+</div>
+
+
+<div class="ui basic vertical segment">
+</div>
+
+<div class="ui basic vertical segment">
+</div>
+
+
+      
+{{> footer}}
+      
+      

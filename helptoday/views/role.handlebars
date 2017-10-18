@@ -1,0 +1,57 @@
+ {{> header_crm}}
+
+
+
+<script type="text/javascript">
+</script>
+
+
+<div class="ui basic vertical segment">
+
+    <div class="ui one column centered stackable grid container">
+
+        <div class="nine wide column">
+
+            <form class="ui form" method="POST" action="/settings/create/role">
+
+                <h2 class="ui dividing header">Neue Rolle</h2>
+
+                <div class="field">
+                    <label>eMail des Mitarbeiters</label> <input type="text" name="us_email" hint="name@organisation.com" value="">
+
+                    <div class="field">
+                        <label>Rolle</label> <select name="ro_name" class="ui dropdown">
+                                                <option value="admin">admin</option>
+                                                <option value="mitarbeiter">mitarbeiter</option>
+                                            </select>
+                    </div>
+                </div>
+
+                <button class="ui blue button" type="submit">Anlegen</button>
+                <a class="ui grey button" href="/roles">Zurück</a>
+            </form>
+            
+            
+            {{#if message}}
+            <div class="ui negative message">
+                <div class="header">Achtung</div>
+                <p>{{ message }}</p>
+            </div>
+            {{/if}}
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="ui basic segment"></div>
+
+
+
+
+
+{{> footer}}
+

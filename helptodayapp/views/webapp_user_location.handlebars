@@ -1,0 +1,227 @@
+{{> header_webapp}}
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places">
+</script>
+
+
+<script type="text/javascript">
+
+
+function getDistanceFromLatLonInKm (lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+};
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+};
+
+
+
+$(document).ready(function() 
+{
+    document.getElementById("us_id_input").value = "{{user.us_id}}";
+
+    
+    
+    var longitude=parseFloat({{user.us_long}});
+    var latitude=parseFloat({{user.us_lat}});
+    var long_radius=parseFloat({{user.us_long_radius}});
+    var lat_radius=parseFloat({{user.us_lat_radius}});
+    var maxDistanceKM= getDistanceFromLatLonInKm ( 0, 0, 0, Math.max ( lat_radius, long_radius ) ).toFixed(3);
+    
+    console.log('initial bounds radius ' + long_radius + ', ' + lat_radius + ' maxDistanceKM ' + maxDistanceKM );
+
+    var latLng = new google.maps.LatLng({{user.us_lat}}, {{user.us_long}});
+    
+    //var latLngSW = new google.maps.LatLng( latitude-lat_radius , longitude- long_radius );
+    //var latLngNE = new google.maps.LatLng( latitude+lat_radius , longitude+ long_radius );
+    //var initialBounds = new google.maps.LatLngBounds( latLngSW, latLngNE );
+    //var initialBounds = new google.maps.LatLngBounds( latLngSW, latLngNE );
+    
+    
+    
+    var mapOptions = 
+    {
+      center: latLng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    
+    
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    var marker = new google.maps.Marker({
+        position: latLng,
+        title: 'Standort',
+        map: map,
+        draggable: true
+    });
+            
+            
+    // Add circle overlay and bind to marker
+    var circle = new google.maps.Circle({
+      map: map,
+      // radius in meters
+      radius: maxDistanceKM*1000.0,    
+      
+      strokeColor: "#0073BF",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#0073BF",
+      fillOpacity: 0.35,      
+    });
+    
+    circle.bindTo('center', marker, 'position');
+    map.fitBounds(circle.getBounds());
+    
+    
+    searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+          return;
+        }
+        
+        console.log ( places );
+        
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+        map.fitBounds(bounds);
+    }); 
+    
+    
+    map.addListener('bounds_changed', function() {
+
+        console.log('search bounds changed ');
+        searchBox.setBounds(map.getBounds());
+    });
+
+    
+    google.maps.event.addListener(map, 'bounds_changed', function(event) 
+    {
+        
+        var bounds= this.getBounds();
+        var center= bounds.getCenter()
+        var spans= bounds.toSpan();
+
+        console.log('map center changed ' + center + ', span ' + spans );
+        
+        longitude= center.lng();
+        latitude= center.lat();
+        
+        var long_radius= spans.lng()/4.0;
+        var lat_radius= spans.lat()/4.0;
+        
+        var maxDistanceKM= getDistanceFromLatLonInKm ( 0, 0, 0, Math.max ( lat_radius, long_radius ) ).toFixed(3);
+
+        console.log('map bounds radius ' + lat_radius + ', ' + long_radius + ' maxDistanceKM ' + maxDistanceKM );
+        
+        document.getElementById("us_long_input").value = parseFloat(longitude).toFixed(7);
+        document.getElementById("us_lat_input").value = parseFloat(latitude).toFixed(7);
+        document.getElementById("us_long_radius_input").value = parseFloat(long_radius).toFixed(5);
+        document.getElementById("us_lat_radius_input").value = parseFloat(lat_radius).toFixed(5);
+        
+        circle.setRadius ( maxDistanceKM*1000.0 );
+    });
+    
+    
+    
+    google.maps.event.addListener(map, 'center_changed', function(event) 
+    {
+        console.log('center changed');
+    });
+    
+    
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+        console.log('marker clicked ' + event );
+        
+        marker.setPosition(event.latLng);
+        map.setCenter(event.latLng);
+    });
+    
+    google.maps.event.addListener(marker, 'dragend', function(event) 
+    {
+        console.log('marker dragged ' + marker.getPosition() );
+        marker.setPosition(event.latLng);
+        map.setCenter(event.latLng);
+    }); 
+    
+    
+    
+    
+    
+});    
+</script>
+
+
+
+
+<div class="pusher">
+
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+    <div class="ui basic segment">    </div>
+
+
+    <div class="ui basic vertical segment">
+    
+        <div class="ui one column centered stackable grid container">
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+                    <h2 class="ui centered header h2dtitlecolor">Wo kann ich helfen?</h2>
+                    
+                    <p>Wähle hier aus wo du helfen kannst. Plaziere den Marker in der Mitte der Region und wähle den Kartenausschnitt ungefähr so dass der Bereich in dem du helfen kannst, im Kreis liegt.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <div class="ui basic vertical segment" >
+        <div class="ui one column centered stackable grid container">
+            <div class="ui ten wide centered column">
+                <input id="pac-input" class="controls" type="text" placeholder="Adresse">
+                <div id="map_canvas" style="height:600px; width:100%;"></div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="ui basic vertical segment">
+        <div class="ui one column centered stackable grid container">
+            <div class="ui ten wide centered column">
+                
+                    <form name="" action="/settings/location" method="POST">
+                        <input type="hidden" id="us_id_input" name="us_id" value="">
+                        <input type="hidden" id="us_long_input" name="us_long" value="">
+                        <input type="hidden" id="us_lat_input" name="us_lat" value="">
+                        <input type="hidden" id="us_lat_radius_input" name="us_lat_radius" value="{{user.us_lat_radius}}">
+                        <input type="hidden" id="us_long_radius_input" name="us_long_radius" value="{{user.us_long_radius}}">
+                        <button id="hotspot_map_submit_button" class="ui basic blue button" type="submit">Speichern</button>
+                        <a class="ui basic grey button" href="/settings?open=7">Zurück</a>
+                   </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> footer}}      

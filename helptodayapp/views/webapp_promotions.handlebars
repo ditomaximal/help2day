@@ -1,0 +1,107 @@
+{{> header_webapp}}
+{{> header_accordion}}
+
+<script type="text/javascript">
+<!-- setup of navigation-->
+$(document)
+.ready(function() 
+{
+    $('.ui.dropdown')
+    .dropdown({
+        onChange:  function ( value, text, $selectedItem) {
+            if ( value != {{user.us_sorted}}){
+                $.post( "/user/sorting", { us_sorting: value }, function( data ) {
+                    document.location.reload();
+                });
+            }
+        }
+    }) ;
+    
+    $('.ui.dropdown').dropdown("set selected", {{user.us_sorted}});
+});
+</script>
+
+<div class="pusher">
+    <div class="ui basic segment"></div>
+    
+    <div class="ui basic segment"></div>
+    <div class="ui basic vertical segment">
+        <div class="ui one column stackable centered grid container">
+            <div class="ui row">
+                <div class="ui twelve wide centered column">
+
+
+
+
+{{> intro}}
+
+    
+                    <h2 class="ui header h2dtitlecolor">Aktuelle Anfragen</h2>
+                    
+                    <span>Hier siehst du eine Liste der aktuellen Anfragen unserer Hilfsorganisationen sortiert nach 
+                    
+                          <div class="ui inline dropdown">
+                            <div class="text">
+                              Profileinstellungen
+                            </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                              <div class="item" data-value="1">
+                                Sachspenden zuerst
+                              </div>
+                              <div class="item" data-value="2">
+                                Zeitspenden zuerst
+                              </div>
+                              <div class="item" data-value="3">
+                                Profileinstellungen
+                              </div>
+                              <div class="item" data-value="4">
+                                Distanz
+                              </div>
+                              <div class="item" data-value="5">
+                                Restlaufzeit
+                              </div>
+                            </div>
+                          </div>
+                    
+                    </span>
+                    
+                </div>
+            </div>
+
+            {{#unless promotions}}
+            <div class="ui one column stackable centered grid container">
+                <div class="ui row">
+                    <div class="ui eleven wide centered column">
+                        <div class="ui compact info message">
+                          <div class="header">
+                            Es sind derzeit keine dringenden Hilfsanfragen veröffentlicht
+                          </div>
+                          
+                          Das liegt aber nicht daran, dass es keinen Hilfsbedarf gibt, sondern eher daran, dass viele Hilfsorganisationen noch nicht 
+                          mit help2day arbeiten. Falls du eine Organisation kennst, die Sachspenden und einfache Hilfeleistungen benötigt, 
+                          melde dich bitte bei uns unter <a href="mailto:office@help2day.org?subject=Hilfsorganisation" >office@help2day.org</a>. Es ist sehr einfach bei help2day.org mitzumachen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/unless}}
+
+            <div class="ui twelve wide column">
+                <div class="ui fluid accordion" >
+                  
+                    {{#each promotions}}
+
+                        {{> promotion_accoridon}}
+
+                    {{/each}}
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui basic segment"></div>
+</div>
+
+{{> footer}}
+
